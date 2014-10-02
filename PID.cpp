@@ -6,17 +6,15 @@
 //  Copyright (c) 2014 BenProject. All rights reserved.
 //
 
-#include "PID.h"
-
 class PID
 {
     float surfaceHeight = 0.45;
     float surfaceWidth = 0.6;
     float cameraHeight = 480;
+    
     float conversion = surfaceHeight/cameraHeight;
     
     float x; float y;
-    
     float errorY = 0;
     float pErrorY = 0;
     float setPointY = surfaceHeight/2;
@@ -40,38 +38,43 @@ class PID
     float tiltAngleY = 0;
     float tiltAngleX = 0;
     
+    public:
+    	void CoOrdinateToDistance (int inputX, int inputY);
+    	void XYToError ();
+    	void ErrorToTilt();
+};
+    
     /*
     	converts from the camera pixels to the distance
     */
-    public:void CoOrdinateToDistance (int inputX, int inputY)
-    {
-        x = inputX * conversion;
-        y = inputY * conversion;
-    }
+void PID::CoOrdinateToDistance (int inputX, int inputY)
+{
+	x = inputX * conversion;
+	y = inputY * conversion;
+}
     
     /*
     	PID controller
     	
     	Transforms the x to y distance into an error which can be put equal to the tilt angle;
     */
-    public:void XYToError ()
-    {
-        errorY = setPointY - y;
-        integralY = integralY + errorY*timeGap;
-        derivativeY = (errorY - pErrorY)/timeGap;
-        pErrorY = errorY;
-        errorY = errorY*Kp + integralY*Ki + derivativeY*Kd;
-        
-        errorX = setPointX - x;
-        integralX = integralX + errorX*timeGap;
-        derivativeX = (errorX - pErrorX)/timeGap;
-        pErrorX = errorX;
-        errorX = errorX*Kp + integralX*Ki + derivativeX*Kd;
-    }
+void PID::XYToError ()
+{
+	errorY = setPointY - y;
+	integralY = integralY + errorY*timeGap;
+	derivativeY = (errorY - pErrorY)/timeGap;
+	pErrorY = errorY;
+	errorY = errorY*Kp + integralY*Ki + derivativeY*Kd;
+	
+	errorX = setPointX - x;
+	integralX = integralX + errorX*timeGap;
+	derivativeX = (errorX - pErrorX)/timeGap;
+	pErrorX = errorX;
+	errorX = errorX*Kp + integralX*Ki + derivativeX*Kd;
+}
     
-    public:void ErrorToTilt()
-    {
-        tiltAngleX = errorX;
-        tiltAngleY = errorY;
-    }
-};
+void PID::ErrorToTilt()
+{
+	tiltAngleX = errorX;
+	tiltAngleY = errorY;
+}

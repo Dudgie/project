@@ -12,7 +12,7 @@
 #include <signal.h>
 #include "TrackObject.cpp"
 #include "PID.cpp"
-#include "stringTest.cpp"
+#include "store.cpp"
 
 using namespace cv;
 using namespace std;
@@ -101,7 +101,12 @@ int main(int argc, const char * argv[])
     
     //Gets Values from the Store
     store.stringToInt(store.readFromFile());
-    store.getValues(hMIN, hMAX, sMIN, sMAX, vMIN, vMAX);
+    hMIN = store.getHMIN();
+    hMAX = store.getHMAX();
+    sMIN = store.getSMIN();
+    sMAX = store.getSMAX();
+    vMIN = store.getVMIN();
+    vMAX = store.getVMAX();
     
     
     while (true)
