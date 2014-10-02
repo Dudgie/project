@@ -12,11 +12,13 @@
 #include <signal.h>
 #include "TrackObject.cpp"
 #include "PID.cpp"
+#include "stringTest.cpp"
 
 using namespace cv;
 using namespace std;
 TrackObject track;
 PID controller;
+Store store;
 
 int hMIN = 0; int hMAX = 256;
 int sMIN = 0; int sMAX = 256;
@@ -61,10 +63,17 @@ int main(int argc, const char * argv[])
         exit (1);
     }
     
+    
+    
     namedWindow("webcamFeed", 1);
     namedWindow("MorphedBinary", 1);
     track.getCamera();
     createTrackBars();
+    
+    store.stringToInt(store.readFromFile());
+    store.getValues(hMIN, hMAX, sMIN, sMAX, vMIN, vMAX);
+    
+    
     while (true)
     {
         
@@ -76,10 +85,14 @@ int main(int argc, const char * argv[])
         
         controller.CoOrdinateToDistance(track.getX(), track.getY());
         
-        waitKey(33);
+        waitKey(1);
         if (ctrlCPressed)
         {
             cout << "Quitting" << endl;
+            
+            string values = store.intToString(hMIN, hMAX, sMIN, sMAX, vMIN, vMAX);
+			store.writeToFile(values);
+            
             break;
         }
     }
