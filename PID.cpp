@@ -40,12 +40,20 @@ class PID
     float tiltAngleY = 0;
     float tiltAngleX = 0;
     
+    /*
+    	converts from the camera pixels to the distance
+    */
     public:void CoOrdinateToDistance (int inputX, int inputY)
     {
         x = inputX * conversion;
         y = inputY * conversion;
     }
     
+    /*
+    	PID controller
+    	
+    	Transforms the x to y distance into an error which can be put equal to the tilt angle;
+    */
     public:void XYToError ()
     {
         errorY = setPointY - y;
