@@ -6,14 +6,15 @@
 //  Copyright (c) 2014 BenProject. All rights reserved.
 //
 
+#include "TrackObject.h"
 #include <opencv/highgui.h>
 #include <opencv/cv.h>
 
 using namespace cv;
 
-class TrackObject
+TrackObject::TrackObject ()
 {
-    int hMIN = 0; int hMAX = 256;
+	int hMIN = 0; int hMAX = 256;
     int sMIN = 0; int sMAX = 256;
     int vMIN = 0; int vMAX = 256;
     
@@ -21,36 +22,18 @@ class TrackObject
     int minObjectArea = 10*10;
     
     Point topLeft = Point(30, 30);
-    Point xy;
     
     int fontType = 4;
     float fontScale = 0.5;
     int fontColour = 127;
     int fontThickness = 1;
     int lineType = 7;
-    
-    String s;
-    
-    Mat image;
-    
-    int x; int y;
-    int maxObjectArea;
-    
-    VideoCapture capture;
-    
-    public:
-    	void displayCameraFeed();
-    	void giveValues(int hMin, int hMax, int sMin, int sMax, int vMin, int vMax);
-    	void imageToBinary();
-    	void binaryToXY ();
-    	String intToString (int value)
-    	void displayXY()
-    	
-    	//Getter Functions
-    	void getCamera() {capture.open(0);}
-    	int getX() {return x;}
-    	int getY() {return y;}
-};
+}
+
+void TrackObject::giveDisplay(bool displayIt)
+{
+	display = displayIt;
+}
     
     /*
     	Puts the captured image into the image matrix and displays it if display is true

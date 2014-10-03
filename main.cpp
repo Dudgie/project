@@ -10,9 +10,9 @@
 #include <opencv/highgui.h>
 #include <opencv/cv.h>
 #include <signal.h>
-#include "TrackObject.cpp"
-#include "PID.cpp"
-#include "store.cpp"
+#include "TrackObject.h"
+#include "PID.h"
+#include "store.h"
 
 using namespace cv;
 using namespace std;
@@ -23,8 +23,8 @@ PID controller;
 Store store;
 
 //Booleans to decide what is displayed on the screen
-bool tracking = false;
-bool display = false;
+bool tracking = true;
+bool display = true;
 
 //Values for the ranges to filter the image
 int hMIN = 0; int hMAX = 256;
@@ -65,7 +65,6 @@ void createTrackBars()
 */
 void sig_handler (int sig)
 {
-    write (0,"\nCtrl C pressed in signal handler", sig);
     ctrlCPressed = true;
 }
 
@@ -86,6 +85,8 @@ int main(int argc, const char * argv[])
         cout << "Problem with sigaction" << endl;
         exit (1);
     }
+    
+    track.giveDisplay (display);
     
     //checks if the user wants to display
     if (display)
