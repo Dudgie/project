@@ -6,44 +6,39 @@
 //  Copyright (c) 2014 BenProject. All rights reserved.
 //
 
-class PID
+#include "PID.h"
+ 
+// the constructor   
+PID::PID ()
 {
-    float surfaceHeight = 0.45;
-    float surfaceWidth = 0.6;
-    float cameraHeight = 480;
+    surfaceHeight = 0.45;
+    surfaceWidth = 0.6;
+    cameraHeight = 480;
     
-    float conversion = surfaceHeight/cameraHeight;
+    conversion = surfaceHeight/cameraHeight;
     
-    float x; float y;
-    float errorY = 0;
-    float pErrorY = 0;
-    float setPointY = surfaceHeight/2;
+    errorY = 0;
+    pErrorY = 0;
+    setPointY = surfaceHeight/2;
     
-    float errorX = 0;
-    float pErrorX = 0;
-    float setPointX = surfaceWidth/2;
+    errorX = 0;
+    pErrorX = 0;
+    setPointX = surfaceWidth/2;
     
-    float timeGap;
+    derivativeY = 0;
+    integralY = 0;
     
-    float derivativeY = 0;
-    float integralY = 0;
+    derivativeX = 0;
+    integralX = 0;
     
-    float derivativeX = 0;
-    float integralX = 0;
+    Kp = -0.1;
+    Ki = 0;
+    Kd = -0.1;
     
-    float Kp = -0.1;
-    float Ki = 0;
-    float Kd = -0.1;
-    
-    float tiltAngleY = 0;
-    float tiltAngleX = 0;
-    
-    public:
-    	void CoOrdinateToDistance (int inputX, int inputY);
-    	void XYToError ();
-    	void ErrorToTilt();
-};
-    
+    tiltAngleY = 0;
+    tiltAngleX = 0;	
+}
+
     /*
     	converts from the camera pixels to the distance
     */
