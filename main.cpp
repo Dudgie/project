@@ -99,7 +99,7 @@ int main(int argc, const char * argv[])
     //Creates trackbars
     if (tracking)
     	createTrackBars();
-    
+    cout << "values : " << hMIN << ", " << hMAX << ", " << sMIN << endl;
     //Gets Values from the Store
     store.stringToInt(store.readFromFile());
     hMIN = store.getHMIN();
@@ -108,7 +108,6 @@ int main(int argc, const char * argv[])
     sMAX = store.getSMAX();
     vMIN = store.getVMIN();
     vMAX = store.getVMAX();
-    
     
     while (true)
     {
