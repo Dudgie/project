@@ -30,6 +30,12 @@ TrackObject::TrackObject ()
     int lineType = 7;
 }
 
+void getCamera()
+{
+	capture.open(0);
+	capture.set(CV_CAP_PROP_FPS, 10);
+}
+
 void TrackObject::giveDisplay(bool displayIt)
 {
 	display = displayIt;

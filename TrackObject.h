@@ -43,7 +43,7 @@ class TrackObject
     	void giveDisplay(bool displayIt);
     	
     	//Getter Functions
-    	void getCamera() {capture.open(0);}
+    	void getCamera();
     	int getX() {return x;}
     	int getY() {return y;}
 };
