@@ -94,7 +94,6 @@ int main(int argc, const char * argv[])
    		namedWindow("webcamFeed", 1);
     	namedWindow("MorphedBinary", 1);
     }
-    track.getCamera();
     
     //Creates trackbars
     if (tracking)
