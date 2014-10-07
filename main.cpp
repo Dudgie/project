@@ -85,7 +85,7 @@ int main(int argc, const char * argv[])
         cout << "Problem with sigaction" << endl;
         exit (1);
     }
-    
+    track.getCamera();
     track.giveDisplay (display);
     
     //checks if the user wants to display
@@ -96,7 +96,7 @@ int main(int argc, const char * argv[])
     }
     
     //Creates trackbars
-    if (tracking)
+    if (tracking && display)
     	createTrackBars();
     cout << "values : " << hMIN << ", " << hMAX << ", " << sMIN << endl;
     //Gets Values from the Store

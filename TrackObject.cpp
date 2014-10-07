@@ -28,9 +28,6 @@ TrackObject::TrackObject ()
     int fontColour = 127;
     int fontThickness = 1;
     int lineType = 7;
-    
-    capture.open(0);
-	capture.set(CV_CAP_PROP_FPS, 10);
 }
 
 void TrackObject::giveDisplay(bool displayIt)
@@ -113,7 +110,6 @@ void TrackObject::binaryToXY ()
 	if (hierarchy.size() > 0)
 	{
 		int numObjects = hierarchy.size();
-		std::cout << numObjects;
 		if (numObjects == maxNumObjects)
 		{
 			for (int i = 0; i >= 0; i = hierarchy[i][0])
@@ -139,7 +135,8 @@ void TrackObject::binaryToXY ()
 		}
 		else
 		{
-			putText(image, "Too much noise!", topLeft, fontType, fontScale, fontColour, fontThickness, lineType);
+			if (display)
+				putText(image, "Too much noise!", topLeft, fontType, fontScale, fontColour, fontThickness, lineType);
 		}
 	}
 
@@ -155,11 +152,13 @@ String TrackObject::intToString (int value)
     
 void TrackObject::displayXY()
 {
-	//Displays the newly formed xy ontop of the processed imagecd
-	s = intToString(x)+", "+intToString(y);
-	xy.x = x;
-	xy.y = y;
-	putText(image, s, xy, fontType, fontScale, fontColour, fontThickness, lineType);
 	if (display)
+		//Displays the newly formed xy ontop of the processed imagecd
+		s = intToString(x)+", "+intToString(y);
+		xy.x = x;
+		xy.y = y;
+		putText(image, s, xy, fontType, fontScale, fontColour, fontThickness, lineType);
 		imshow("MorphedBinary", image);
+	else
+		cout << x << ", " << y << endl;
 }
