@@ -120,7 +120,7 @@ int main(int argc, const char * argv[])
         //x, y to distance
         controller.CoOrdinateToDistance(track.getX(), track.getY());
         
-        waitKey(50);
+        waitKey(1);
         if (ctrlCPressed)
         {
             cout << "Quitting" << endl;
