@@ -28,11 +28,11 @@ TrackObject::TrackObject ()
     int fontColour = 127;
     int fontThickness = 1;
     int lineType = 7;
+    capture.open(0);
 }
 
 void getCamera()
 {
-	capture.open(0);
 	capture.set(CV_CAP_PROP_FPS, 10);
 }
 
