@@ -160,5 +160,5 @@ void TrackObject::displayXY()
 		putText(image, s, xy, fontType, fontScale, fontColour, fontThickness, lineType);
 		imshow("MorphedBinary", image);
 	else
-		cout << x << ", " << y << endl;
+		std::cout << x << ", " << y << endl;
 }
