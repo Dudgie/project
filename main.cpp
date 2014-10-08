@@ -85,8 +85,9 @@ int main(int argc, const char * argv[])
         cout << "Problem with sigaction" << endl;
         exit (1);
     }
-    track.startCameraFeed();
+    
     track.getCamera();
+    track.startCameraFeed();
     track.giveDisplay (display);
     
     //checks if the user wants to display
