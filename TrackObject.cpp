@@ -153,12 +153,14 @@ String TrackObject::intToString (int value)
 void TrackObject::displayXY()
 {
 	if (display)
+	{
 		//Displays the newly formed xy ontop of the processed imagecd
 		s = intToString(x)+", "+intToString(y);
 		xy.x = x;
 		xy.y = y;
 		putText(image, s, xy, fontType, fontScale, fontColour, fontThickness, lineType);
 		imshow("MorphedBinary", image);
+	}
 	else
-		std::cout << x << ", " << y << endl;
+		std::cout << x << ", " << y << std::endl;
 }
