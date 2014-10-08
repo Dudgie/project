@@ -31,6 +31,8 @@ class TrackObject
     int maxObjectArea;
     
     VideoCapture capture;
+    capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
+	capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
     
     public:
     	TrackObject ();
@@ -41,7 +43,6 @@ class TrackObject
     	String intToString (int value);
     	void displayXY();
     	void giveDisplay(bool displayIt);
-    	void getCamera();
     	
     	//Getter Functions
     	void startCameraFeed() {capture.open(0);}
