@@ -30,6 +30,11 @@ TrackObject::TrackObject ()
     int lineType = 7;
 }
 
+void getCamera()
+{
+	capture.open(0);
+}
+
 void TrackObject::giveDisplay(bool displayIt)
 {
 	display = displayIt;
