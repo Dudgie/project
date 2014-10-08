@@ -28,6 +28,9 @@ TrackObject::TrackObject ()
     int fontColour = 127;
     int fontThickness = 1;
     int lineType = 7;
+    
+    capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
+	capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
 }
 
 void TrackObject::giveDisplay(bool displayIt)
