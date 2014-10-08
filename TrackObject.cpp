@@ -28,7 +28,6 @@ TrackObject::TrackObject ()
     int fontColour = 127;
     int fontThickness = 1;
     int lineType = 7;
-    VideoCapture capture = capture.open(0);
 }
 
 void getCamera()

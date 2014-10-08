@@ -44,7 +44,7 @@ class TrackObject
     	void getCamera();
     	
     	//Getter Functions
-    	
+    	void startCameraFeed() {capture.open(0);}
     	int getX() {return x;}
     	int getY() {return y;}
 };
