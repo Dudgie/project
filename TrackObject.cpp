@@ -33,7 +33,8 @@ TrackObject::TrackObject ()
 
 void getCamera()
 {
-	
+	capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
+	capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
 }
 
 void TrackObject::giveDisplay(bool displayIt)
