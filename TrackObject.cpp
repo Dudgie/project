@@ -28,9 +28,14 @@ TrackObject::TrackObject ()
     int fontColour = 127;
     int fontThickness = 1;
     int lineType = 7;
-    
-    capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
-	capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
+}
+
+Mat TrackObject::resizeImage(Mat largeImage)
+{
+	Size imgSize(160, 120);
+	Mat smallImage;
+	resize(largeImage, smallImage, imgSize, 0, 0, INTER_AREA);
+	return smallImage;
 }
 
 void TrackObject::giveDisplay(bool displayIt)
@@ -44,6 +49,7 @@ void TrackObject::giveDisplay(bool displayIt)
 void TrackObject::displayCameraFeed()
 {
 	capture>>image;
+	image = resizeImage(image);
 	maxObjectArea = image.rows * image.cols * 0.25;
 	if (display)
 		imshow("webcamFeed", image);

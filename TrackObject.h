@@ -32,6 +32,8 @@ class TrackObject
     
     VideoCapture capture;
     
+    private:
+    	Mat resizeImage (Mat largeImage);
     
     public:
     	TrackObject ();
@@ -44,7 +46,7 @@ class TrackObject
     	void giveDisplay(bool displayIt);
     	
     	//Getter Functions
-    	void startCameraFeed() {capture.open(0);}
+    	void startCameraFeed() {capture.open(1);}
     	int getX() {return x;}
     	int getY() {return y;}
 };
