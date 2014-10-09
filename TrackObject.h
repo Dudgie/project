@@ -2,6 +2,7 @@
 #include <opencv/cv.h>
 
 using namespace cv;
+using namespace std;
 
 class TrackObject
 {
@@ -46,7 +47,7 @@ class TrackObject
     	void giveDisplay(bool displayIt);
     	
     	//Getter Functions
-    	void startCameraFeed() {capture.open(1);}
+    	void startCameraFeed() {capture.open(0);}
     	int getX() {return x;}
     	int getY() {return y;}
 };

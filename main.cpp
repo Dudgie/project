@@ -93,6 +93,7 @@ int main(int argc, const char * argv[])
     {
    		namedWindow("webcamFeed", 1);
     	namedWindow("MorphedBinary", 1);
+    	namedWindow("binary", 1);
     }
     
     //Creates trackbars
