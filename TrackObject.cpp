@@ -19,7 +19,7 @@ TrackObject::TrackObject ()
     int sMIN = 0; int sMAX = 256;
     int vMIN = 0; int vMAX = 256;
     
-    int maxNumObjects = 20;
+    int maxNumObjects = 5;
     int minObjectArea = 30*30;
     
     Point topLeft = Point(30, 30);
@@ -178,5 +178,5 @@ void TrackObject::displayXY()
 		imshow("MorphedBinary", image);
 	}
 	else
-		cout << x << ", " << y << endl;
+		cout << "x, y values : " << x << ", " << y << endl;
 }

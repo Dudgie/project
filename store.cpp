@@ -10,7 +10,7 @@ string Store::intToString (int hMin,int hMax,int sMin,int sMax,int vMin,int vMax
 {
 	stringstream ss;
 	ss << hMin << " " << hMax << " " << sMin << " " << sMax << " " << vMin << " " << vMax;
-	cout << ss.str() << endl;
+	cout << "HSV values into store : " << ss.str() << endl;
 	return ss.str();
 }
 	
@@ -31,12 +31,12 @@ void Store::stringToInt (string stringIn)
 	ss << temp[0] << ' ' << temp[1] << ' ' << temp[2] << ' ' << temp[3] << ' ' << temp[4] << ' ' << temp[5];
 	ss >> hMIN >> hMAX >> sMIN >> sMAX >> vMIN >> vMAX;
 	
-	cout << "hMIN =" << hMIN << ", ";
+	cout << "HSV values in : hMIN =" << hMIN << ", ";
 	cout << "hMAX =" << hMAX << ", ";
 	cout << "sMIN =" << sMIN << ", ";
 	cout << "sMAX =" << sMAX << ", ";
 	cout << "vMIN =" << vMIN << ", ";
-	cout << "vMAX =" << vMAX << ", ";
+	cout << "vMAX =" << vMAX << ", " << endl;
 }
 	
 	/*
@@ -45,12 +45,10 @@ void Store::stringToInt (string stringIn)
 	*/
 void Store::writeToFile(string stringOut)
 {
-	cout << "processing..." << endl;
 	ofstream myfile;
 	myfile.open ("values.txt");
 	myfile << stringOut;
 	myfile.close();
-	cout << "done" << endl;
 }
 
 	
@@ -66,7 +64,7 @@ string Store::readFromFile()
 		getline (myfile, line);
 		myfile.close();
 	}
-	else cout << "Unable to open file";
+	else cout << "Unable to open file" << endl;
 	return line;
 }
 
