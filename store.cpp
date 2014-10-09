@@ -6,20 +6,20 @@ Store::Store ()
 }
 
 
-string Store::intToString (int a,int b,int c,int d,int e,int f)
+string Store::intToString (int hMin,int hMax,int sMin,int sMax,int vMin,int vMax)
 {
 	stringstream ss;
-	ss << a << " " << b << " " << c << " " << d << " " << e << " " << f;
+	ss << hMin << " " << hMax << " " << sMin << " " << sMax << " " << vMin << " " << vMax;
 	cout << ss.str() << endl;
 	return ss.str();
 }
 	
-void Store::stringToInt (string input)
+void Store::stringToInt (string stringIn)
 {
 	//Split the string
 	string temp[6];
 	int i = 0;
-	stringstream ssin(input);
+	stringstream ssin(stringIn);
 	while (ssin.good() && i < 6)
 	{
 		ssin >> temp[i];
@@ -43,12 +43,12 @@ void Store::stringToInt (string input)
 		Uses File writing to write to the file
 		To then be collected on startup
 	*/
-void Store::writeToFile(string output)
+void Store::writeToFile(string stringOut)
 {
 	cout << "processing..." << endl;
 	ofstream myfile;
 	myfile.open ("values.txt");
-	myfile << output;
+	myfile << stringOut;
 	myfile.close();
 	cout << "done" << endl;
 }

@@ -31,6 +31,10 @@ int hMIN = 0; int hMAX = 256;
 int sMIN = 0; int sMAX = 256;
 int vMIN = 0; int vMAX = 256;
 
+int hMinValue = 0; int hMaxValue = 0;
+int sMinValue = 0; int sMaxValue = 0;
+int vMinValue = 0; int vMaxValue = 0;
+
 //Check if need to exit
 bool ctrlCPressed = false;
 
@@ -51,12 +55,12 @@ void createTrackBars()
     string trackers = "Trackbars";
     namedWindow(trackers, 0);
     
-    createTrackbar("trackHMIN", trackers, &hMIN, hMAX, trackIt);
-    createTrackbar("trackHMAX", trackers, &hMAX, hMAX, trackIt);
-    createTrackbar("trackSMIN", trackers, &sMIN, hMAX, trackIt);
-    createTrackbar("trackSMAX", trackers, &sMAX, hMAX, trackIt);
-    createTrackbar("trackVMIN", trackers, &vMIN, hMAX, trackIt);
-    createTrackbar("trackVMAX", trackers, &vMAX, hMAX, trackIt);
+    createTrackbar("trackHMIN", trackers, &hMinValue, hMAX, trackIt);
+    createTrackbar("trackHMAX", trackers, &hMaxValue, hMAX, trackIt);
+    createTrackbar("trackSMIN", trackers, &sMinValue, hMAX, trackIt);
+    createTrackbar("trackSMAX", trackers, &sMaxValue, hMAX, trackIt);
+    createTrackbar("trackVMIN", trackers, &vMinValue, hMAX, trackIt);
+    createTrackbar("trackVMAX", trackers, &vMaxValue, hMAX, trackIt);
 }
 
 /*
@@ -99,21 +103,20 @@ int main(int argc, const char * argv[])
     //Creates trackbars
     if (tracking && display)
     	createTrackBars();
-    cout << "values : " << hMIN << ", " << hMAX << ", " << sMIN << endl;
     //Gets Values from the Store
     store.stringToInt(store.readFromFile());
-    hMIN = store.getHMIN();
-    hMAX = store.getHMAX();
-    sMIN = store.getSMIN();
-    sMAX = store.getSMAX();
-    vMIN = store.getVMIN();
-    vMAX = store.getVMAX();
+    hMinValue= store.getHMIN();
+    hMaxValue= store.getHMAX();
+    sMinValue = store.getSMIN();
+    sMaxValue = store.getSMAX();
+    vMinValue = store.getVMIN();
+    vMaxValue = store.getVMAX();
     
     while (true)
     {
         //From Image stream to X, Y values
         track.displayCameraFeed();
-        track.giveValues(hMIN, hMAX, sMIN, sMAX, vMIN, vMAX);
+        track.giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
         track.imageToBinary();
         track.binaryToXY();
         track.displayXY();
@@ -126,7 +129,7 @@ int main(int argc, const char * argv[])
         {
             cout << "Quitting" << endl;
             //Gives back the new values to the store
-            string values = store.intToString(hMIN, hMAX, sMIN, sMAX, vMIN, vMAX);
+            string values = store.intToString(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
 			store.writeToFile(values);
             
             break;

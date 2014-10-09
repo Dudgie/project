@@ -12,9 +12,9 @@ class Store
 	
 	public:
 		Store ();
-		string intToString (int a,int b,int c,int d,int e,int f);
-		void stringToInt (string input);
-		void writeToFile(string output);
+		string intToString (int hMin,int hMax,int sMin,int sMax,int vMin,int vMax);
+		void stringToInt (string stringIn);
+		void writeToFile(string stringOut);
 		string readFromFile();
 		
 		//standard getter functions
