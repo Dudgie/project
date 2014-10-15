@@ -6,20 +6,20 @@ Store::Store ()
 }
 
 
-string Store::intToString (int a,int b,int c,int d,int e,int f)
+string Store::intToString (int hMin,int hMax,int sMin,int sMax,int vMin,int vMax)
 {
 	stringstream ss;
-	ss << a << " " << b << " " << c << " " << d << " " << e << " " << f;
-	cout << ss.str() << endl;
+	ss << hMin << " " << hMax << " " << sMin << " " << sMax << " " << vMin << " " << vMax;
+	cout << "HSV values into store : " << ss.str() << endl;
 	return ss.str();
 }
 	
-void Store::stringToInt (string input)
+void Store::stringToInt (string stringIn)
 {
 	//Split the string
 	string temp[6];
 	int i = 0;
-	stringstream ssin(input);
+	stringstream ssin(stringIn);
 	while (ssin.good() && i < 6)
 	{
 		ssin >> temp[i];
@@ -31,26 +31,24 @@ void Store::stringToInt (string input)
 	ss << temp[0] << ' ' << temp[1] << ' ' << temp[2] << ' ' << temp[3] << ' ' << temp[4] << ' ' << temp[5];
 	ss >> hMIN >> hMAX >> sMIN >> sMAX >> vMIN >> vMAX;
 	
-	cout << "hMIN =" << hMIN << ", ";
+	cout << "HSV values in : hMIN =" << hMIN << ", ";
 	cout << "hMAX =" << hMAX << ", ";
 	cout << "sMIN =" << sMIN << ", ";
 	cout << "sMAX =" << sMAX << ", ";
 	cout << "vMIN =" << vMIN << ", ";
-	cout << "vMAX =" << vMAX << ", ";
+	cout << "vMAX =" << vMAX << ", " << endl;
 }
 	
 	/*
 		Uses File writing to write to the file
 		To then be collected on startup
 	*/
-void Store::writeToFile(string output)
+void Store::writeToFile(string stringOut)
 {
-	cout << "processing..." << endl;
 	ofstream myfile;
 	myfile.open ("values.txt");
-	myfile << output;
+	myfile << stringOut;
 	myfile.close();
-	cout << "done" << endl;
 }
 
 	
@@ -66,7 +64,7 @@ string Store::readFromFile()
 		getline (myfile, line);
 		myfile.close();
 	}
-	else cout << "Unable to open file";
+	else cout << "Unable to open file" << endl;
 	return line;
 }
 

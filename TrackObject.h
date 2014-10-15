@@ -2,6 +2,7 @@
 #include <opencv/cv.h>
 
 using namespace cv;
+using namespace std;
 
 class TrackObject
 {
@@ -32,6 +33,8 @@ class TrackObject
     
     VideoCapture capture;
     
+    private:
+    	Mat resizeImage (Mat largeImage);
     
     public:
     	TrackObject ();

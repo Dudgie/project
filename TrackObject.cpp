@@ -11,6 +11,7 @@
 #include <opencv/cv.h>
 
 using namespace cv;
+using namespace std;
 
 TrackObject::TrackObject ()
 {
@@ -18,8 +19,8 @@ TrackObject::TrackObject ()
     int sMIN = 0; int sMAX = 256;
     int vMIN = 0; int vMAX = 256;
     
-    int maxNumObjects = 1;
-    int minObjectArea = 10*10;
+    int maxNumObjects = 5;
+    int minObjectArea = 30*30;
     
     Point topLeft = Point(30, 30);
     
@@ -28,9 +29,14 @@ TrackObject::TrackObject ()
     int fontColour = 127;
     int fontThickness = 1;
     int lineType = 7;
-    
-    capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
-	capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
+}
+
+Mat TrackObject::resizeImage(Mat largeImage)
+{
+	Size imgSize(160, 120);
+	Mat smallImage;
+	resize(largeImage, smallImage, imgSize, 0, 0, INTER_AREA);
+	return smallImage;
 }
 
 void TrackObject::giveDisplay(bool displayIt)
@@ -44,6 +50,7 @@ void TrackObject::giveDisplay(bool displayIt)
 void TrackObject::displayCameraFeed()
 {
 	capture>>image;
+	image = resizeImage(image);
 	maxObjectArea = image.rows * image.cols * 0.25;
 	if (display)
 		imshow("webcamFeed", image);
@@ -73,6 +80,9 @@ void TrackObject::imageToBinary()
 	
 	//Checks whether the pixels are in the given range
 	inRange(temp, Scalar(hMIN, sMIN, vMIN), Scalar(hMAX, sMAX, vMAX), image);
+	
+	if (display)
+		imshow ("binary", image);
 	
 	/*
 		Errodes the matrix and dilates the matrix
@@ -113,7 +123,8 @@ void TrackObject::binaryToXY ()
 	if (hierarchy.size() > 0)
 	{
 		int numObjects = hierarchy.size();
-		if (numObjects == maxNumObjects)
+		cout << "Number of Objects : " << numObjects << endl;
+		if (numObjects >= maxNumObjects)
 		{
 			for (int i = 0; i >= 0; i = hierarchy[i][0])
 			{
@@ -131,10 +142,12 @@ void TrackObject::binaryToXY ()
 					y = moment.m01/area;
 					objectFound = true;
 					refArea = area;
+					
 				}
 				else
 					objectFound = false;
 			}
+			cout << "x : " << x << ", y : " << y << endl;
 		}
 		else
 		{
@@ -147,7 +160,7 @@ void TrackObject::binaryToXY ()
     
 String TrackObject::intToString (int value)
 {
-	std::stringstream ss;
+	stringstream ss;
 	ss << value;
 	String str = ss.str();
 	return str;
@@ -165,5 +178,5 @@ void TrackObject::displayXY()
 		imshow("MorphedBinary", image);
 	}
 	else
-		std::cout << x << ", " << y << std::endl;
+		cout << "x, y values : " << x << ", " << y << endl;
 }
