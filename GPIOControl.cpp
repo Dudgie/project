@@ -56,7 +56,7 @@ void GPIOControl::setDirection (string direction)
 	
 }
 
-void GPIOControlsetValue (string value)
+void GPIOControl::setValue (string value)
 {
 	string valuePath = "/sys/class/gpio/gpio" + GPIONumber + "/value";
 	ofstream valueFile;
