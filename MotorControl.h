@@ -7,6 +7,7 @@ class MotorControl
 	private:
 		float tiltAngle;
 		int stepNumber;
+		int phaseNumber;
 		GPIOControl* aInputOne;
 		GPIOControl* aInputTwo;
 		GPIOControl* bInputOne;

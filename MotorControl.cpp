@@ -8,6 +8,7 @@ MotorControl::MotorControl()
     GPIOControl* aInputTwo = new GPIOControl("24");
     GPIOControl* bInputOne = new GPIOControl("27");
     GPIOControl* bInputTwo = new GPIOControl("18");
+    phaseNumber = 1;
 }
 
 void MotorControl::step (string valueA, string valueB, string valueC, string valueD)
@@ -36,17 +37,50 @@ void MotorControl::changeAngle(float angle)
 	float angleChange = angle - tiltAngle;
 	stepNumber = int(angleChange/1.8);
 	
-	/*for (int i = 0; i < stepNumber; i++)
+	
+	if (stepNumber > 0)
 	{
-		step("1","0","1","0");
-    	
-    	step("0","1","1","0");
-    	
-    	step("0","1","0","1");
-    	
-   		step("1","0","0","1");
-    	
-	}*/
+		for (int i = 0; i < stepNumber; i++)
+		{
+			switch (phaseNumber)
+			{
+				case 1 : step("1","0","1","0");
+						 phaseNumber = 2;
+						 break;
+				case 2 : step("0","1","1","0");
+						 phaseNumber = 3;
+						 break;
+				case 3 : step("0","1","0","1");
+						 phaseNumber = 4;
+						 break;
+				case 4 : step("1","0","0","1");
+						 phaseNumber = 1;
+						 break;
+			}
+		}
+	}
+	else
+	{
+		phaseNumber = phaseNumber * -1;
+		for (int i = 0; i < stepNumber; i++)
+		{
+			switch (phaseNumber)
+			{
+				case 1 : step("1","0","1","0");
+						 phaseNumber = 4;
+						 break;
+				case 2 : step("0","1","1","0");
+						 phaseNumber = 1;
+						 break;
+				case 3 : step("0","1","0","1");
+						 phaseNumber = 2;
+						 break;
+				case 4 : step("1","0","0","1");
+						 phaseNumber = 3;
+						 break;
+			}
+		}
+	}
 }
 
 void MotorControl::stopMotor()
