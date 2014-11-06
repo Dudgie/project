@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <string>
 #include <sstream>
 #include "GPIOControl.h"
 

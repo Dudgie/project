@@ -1,6 +1,9 @@
-
+#include <iostream>
+#include <string>
 #include "MotorControl.h"
 #include "GPIOControl.h"
+
+using namespace std;
 
 MotorControl::MotorControl()
 {
