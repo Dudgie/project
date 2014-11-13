@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
-#include "MotorControl.h"
+#include <unistd.h>
 #include "GPIOControl.h"
+#include "MotorControl.h"
 
 using namespace std;
 
@@ -14,13 +15,7 @@ MotorControl::MotorControl()
     phaseNumber = 1;
 }
 
-void MotorControl::step (string valueA, string valueB, string valueC, string valueD)
-{
-	aInputOne->setValue(valueA);
-	aInputTwo->setValue(valueB);
-	bInputOne->setValue(valueC);
-	bInputTwo->setValue(valueD);
-}
+
 
 void MotorControl::startMotor()
 {
@@ -33,6 +28,14 @@ void MotorControl::startMotor()
     aInputTwo->setDirection("out");
     bInputOne->setDirection("out");
     bInputTwo->setDirection("out");
+}
+
+void MotorControl::step (string valueA, string valueB, string valueC, string valueD)
+{
+	aInputOne->setValue(valueA);
+	aInputTwo->setValue(valueB);
+	bInputOne->setValue(valueC);
+	bInputTwo->setValue(valueD);
 }
 
 void MotorControl::changeAngle(float angle)
@@ -84,6 +87,8 @@ void MotorControl::changeAngle(float angle)
 			}
 		}
 	}
+	
+	tiltAngle = angle;
 }
 
 void MotorControl::stopMotor()

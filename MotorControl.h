@@ -1,4 +1,5 @@
-#include "GPIOControl.h"
+#ifndef MOTORCONTROL_H
+#define MOTORCONTROL_H
 
 using namespace std;
 
@@ -8,13 +9,18 @@ class MotorControl
 		float tiltAngle;
 		int stepNumber;
 		int phaseNumber;
-		
+		GPIOControl* aInputOne;
+		GPIOControl* aInputTwo;
+		GPIOControl* bInputOne;
+		GPIOControl* bInputTwo;
 		
 	
 	public:
-		void step();
+		MotorControl();
 		void startMotor();
+		void step(string valueA, string valueB, string valueC, string valueD);
 		void changeAngle(float angle);
 		void stopMotor();
-		float getAngle();
 };
+
+#endif
