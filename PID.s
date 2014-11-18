@@ -24,11 +24,14 @@ Ltmp4:
 	.section	__TEXT,__literal4,4byte_literals
 	.align	2
 LCPI1_0:
-	.long	3184315597              ## float -0.100000001
+	.long	3184315597              ## float -1.000000e-01
+                                        ##  (0xbdcccccd)
 LCPI1_1:
-	.long	1058642330              ## float 0.600000024
+	.long	1058642330              ## float 6.000000e-01
+                                        ##  (0x3f19999a)
 LCPI1_2:
-	.long	1055286886              ## float 0.449999988
+	.long	1055286886              ## float 4.500000e-01
+                                        ##  (0x3ee66666)
 	.section	__TEXT,__text,regular,pure_instructions
 	.globl	__ZN3PIDC2Ev
 	.align	4, 0x90
@@ -99,10 +102,10 @@ Ltmp14:
 	movl	%esi, -12(%rbp)
 	movl	%edx, -16(%rbp)
 	movq	-8(%rbp), %rdi
-	cvtsi2ssl	-12(%rbp), %xmm0
+	cvtsi2ss	-12(%rbp), %xmm0
 	mulss	12(%rdi), %xmm0
 	movss	%xmm0, 16(%rdi)
-	cvtsi2ssl	-16(%rbp), %xmm0
+	cvtsi2ss	-16(%rbp), %xmm0
 	mulss	12(%rdi), %xmm0
 	movss	%xmm0, 20(%rdi)
 	popq	%rbp

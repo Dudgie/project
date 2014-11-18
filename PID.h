@@ -23,4 +23,6 @@ class PID
     	void CoOrdinateToDistance (int inputX, int inputY);
     	void XYToError ();
     	void ErrorToTilt();
+    	float getTiltX() {return tiltAngleX;}
+    	float getTiltY() {return tiltAngleY;}
 };

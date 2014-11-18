@@ -13,14 +13,20 @@
 #include "TrackObject.h"
 #include "PID.h"
 #include "store.h"
+#include "GPIOControl.h"
+#include "MotorControl.h"
+
 
 using namespace cv;
 using namespace std;
 
 //The various classes used included into the program
-TrackObject track;
-PID controller;
-Store store;
+TrackObject *track;
+PID *controller;
+Store *store;
+
+MotorControl *motorA;
+MotorControl *motorB;
 
 //Booleans to decide what is displayed on the screen
 bool tracking = true;
@@ -50,6 +56,7 @@ void trackIt (int, void*)
 	
 	displayed in window called 'trackers'
 */
+
 void createTrackBars()
 {
     string trackers = "Trackbars";
@@ -89,8 +96,8 @@ int main(int argc, const char * argv[])
         cout << "Problem with sigaction" << endl;
         exit (1);
     }
-    track.startCameraFeed();
-    track.giveDisplay (display);
+    track->startCameraFeed();
+    track->giveDisplay (display);
     
     //checks if the user wants to display
     if (display)
@@ -104,33 +111,43 @@ int main(int argc, const char * argv[])
     if (tracking && display)
     	createTrackBars();
     //Gets Values from the Store
-    store.stringToInt(store.readFromFile());
-    hMinValue= store.getHMIN();
-    hMaxValue= store.getHMAX();
-    sMinValue = store.getSMIN();
-    sMaxValue = store.getSMAX();
-    vMinValue = store.getVMIN();
-    vMaxValue = store.getVMAX();
+    store->stringToInt(store.readFromFile());
+    hMinValue = store->getHMIN();
+    hMaxValue = store->getHMAX();
+    sMinValue = store->getSMIN();
+    sMaxValue = store->getSMAX();
+    vMinValue = store->getVMIN();
+    vMaxValue = store->getVMAX();
+    
+    motorA->startMotor();
+    motorB->startMotor();
     
     while (true)
     {
         //From Image stream to X, Y values
-        track.displayCameraFeed();
-        track.giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
-        track.imageToBinary();
-        track.binaryToXY();
-        track.displayXY();
+        track->displayCameraFeed();
+        track->giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
+        track->imageToBinary();
+        track->binaryToXY();
+        track->displayXY();
         
         //x, y to distance
-        controller.CoOrdinateToDistance(track.getX(), track.getY());
+        controller->CoOrdinateToDistance(track->getX(), track->getY());
+        controller->XYToError();
+        controller->ErrorToTilt();
+        
+        motorA->changeAngle(controller->getTiltX());
+        motorB->changeAngle(controller->getTiltY());
         
         waitKey(1);
         if (ctrlCPressed)
         {
             cout << "Quitting" << endl;
+            motorA->stopMotor();
+            motorB->stopMotor();
             //Gives back the new values to the store
-            string values = store.intToString(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
-			store.writeToFile(values);
+            string values = store->intToString(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
+			store->writeToFile(values);
             
             break;
         }
