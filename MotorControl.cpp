@@ -16,7 +16,7 @@ MotorControl::MotorControl()
 }
 
 
-
+// Sets the 4 necessary pins to "out"
 void MotorControl::startMotor()
 {
 	aInputOne->exportGPIO();
@@ -30,6 +30,7 @@ void MotorControl::startMotor()
     bInputTwo->setDirection("out");
 }
 
+// controls the pin values for stepping the motor
 void MotorControl::step (string valueA, string valueB, string valueC, string valueD)
 {
 	aInputOne->setValue(valueA);
@@ -38,12 +39,16 @@ void MotorControl::step (string valueA, string valueB, string valueC, string val
 	bInputTwo->setValue(valueD);
 }
 
+/*
+	Function to change the current angle of the motor
+	Select case to ensure the steps can occur individually and not in groups of 4
+*/
 void MotorControl::changeAngle(float angle)
 {
 	float angleChange = angle - tiltAngle;
 	stepNumber = int(angleChange/1.8);
 	
-	
+	// if forward
 	if (stepNumber > 0)
 	{
 		for (int i = 0; i < stepNumber; i++)
@@ -65,7 +70,7 @@ void MotorControl::changeAngle(float angle)
 			}
 		}
 	}
-	else
+	else // if backwards
 	{
 		phaseNumber = phaseNumber * -1;
 		for (int i = 0; i < stepNumber; i++)

@@ -55,6 +55,8 @@ void trackIt (int, void*)
 	To let the program know what colour to track
 	
 	displayed in window called 'trackers'
+	
+	Only opened if there is a display
 */
 
 void createTrackBars()

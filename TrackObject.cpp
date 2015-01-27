@@ -13,6 +13,7 @@
 using namespace cv;
 using namespace std;
 
+//Constructor
 TrackObject::TrackObject ()
 {
 	int hMIN = 0; int hMAX = 256;
@@ -31,6 +32,13 @@ TrackObject::TrackObject ()
     int lineType = 7;
 }
 
+/*
+	Function to resize the image so that the Raspberry pi can process the
+	image without lag.
+	 
+	This is necessary for the ball reaction to the movement of the ball to
+	be fast enough so it doesn't just run off the surface.
+*/
 Mat TrackObject::resizeImage(Mat largeImage)
 {
 	Size imgSize(160, 120);
@@ -39,14 +47,18 @@ Mat TrackObject::resizeImage(Mat largeImage)
 	return smallImage;
 }
 
+/*
+	Get's whether a screen is attached so as not to waste processing time trying to
+	display an image when it is not needed.
+*/
 void TrackObject::giveDisplay(bool displayIt)
 {
 	display = displayIt;
 }
     
-    /*
-    	Puts the captured image into the image matrix and displays it if display is true
-    */
+/*
+    Puts the captured image into the image matrix and displays it if display is true
+*/
 void TrackObject::displayCameraFeed()
 {
 	capture>>image;
@@ -56,7 +68,7 @@ void TrackObject::displayCameraFeed()
 		imshow("webcamFeed", image);
 }
     
-    // Gives the values to the main function
+// Gives the values to the main function
 void TrackObject::giveValues(int hMin, int hMax, int sMin, int sMax, int vMin, int vMax)
 {
 	hMIN = hMin;
@@ -67,12 +79,17 @@ void TrackObject::giveValues(int hMin, int hMax, int sMin, int sMax, int vMin, i
 	vMAX = vMax;
 }
     
-    /*
-    	Uses Opencv functions to convert the image from the webcam into a
-    	detected object
+/*
+    Uses Opencv functions to convert the image from the webcam into a
+    detected object
     	
-    	uses HSV colours as they stand out more that RBG
-   */
+    by:
+    	Storing in a matrix,
+    	Converting to HSV colours as they stand out more,
+    	Checking whether the individual pixel are in the detection range,
+    	Eroding to remove noise outside the object,
+    	Dilating to remove noise inside the object.
+*/
 void TrackObject::imageToBinary()
 {
 	Mat temp; // tempory matrix
@@ -100,11 +117,15 @@ void TrackObject::imageToBinary()
 	dilate (image, image, dilateElement);
 }
     
-    /*
-    	Uses the new biunary image to convert into xy values
+/*
+    Uses the new binary image to convert into xy values
     	
-    	Uses opencv find contours
-    */
+    by:
+    	Producing a vector for the outline of objects,
+    	Producing a vector to see whether shapes are contained by others,
+    	Finding the largest of the outlined shapes in area and disregarding the others,
+    	Finding the centre of the outlined shape.
+*/
 void TrackObject::binaryToXY ()
 {
 	Mat temp;
@@ -157,7 +178,8 @@ void TrackObject::binaryToXY ()
 	}
 
 }
-    
+
+// x,y int into strings
 String TrackObject::intToString (int value)
 {
 	stringstream ss;
@@ -165,7 +187,8 @@ String TrackObject::intToString (int value)
 	String str = ss.str();
 	return str;
 }
-    
+
+// Puts the x,y values on the image when displaying
 void TrackObject::displayXY()
 {
 	if (display)
