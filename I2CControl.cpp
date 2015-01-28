@@ -3,7 +3,7 @@ include "testI2C.h"
 
 using namespace std;
 
-testI2C::testI2C()
+TestI2C::TestI2C()
 {
         this->i2cFileName = "/dev/i2c-1";
         this->deviceAdress = 0;
@@ -12,7 +12,7 @@ testI2C::testI2C()
         this->openI2C();
 }
 
-testI2C::testI2C(unsigned char address)
+TestI2C::TestI2C(unsigned char address)
 {
         this->i2cFileName = "/dev/i2c-1";
         this->deviceAddress = address;
@@ -21,12 +21,12 @@ testI2C::testI2C(unsigned char address)
         this->openI2C();
 }
 
-testI2C::~testI2C()
+TestI2C::~TestI2C()
 {
         this->closeI2C();
 }
 
-int testI2C::openI2C()
+int TestI2C::openI2C()
 {
         this->i2cDescriptor = open(i2cFileName.c_str(), O_RDWR);
         if(this->i2cDescriptor < 0)
@@ -38,7 +38,7 @@ int testI2C::openI2C()
         return i2cDescriptor;
 }
 
-int testI2C::closeI2C()
+int TestI2C::closeI2C()
 {
         int retVal = -1;
         retVal = close(this->i2cDescriptor);
@@ -50,7 +50,7 @@ int testI2C::closeI2C()
         return retVal;
 }
 
-int testI2C::writeRegister(unsigned char regAddress, unsigned char data)
+int TestI2C::writeRegister(unsigned char regAddress, unsigned char data)
 {
         unsigned char buff[2];
         int retVal = -1;
@@ -76,7 +76,7 @@ int testI2C::writeRegister(unsigned char regAddress, unsigned char data)
 
 }
 
-int testI2C::readRegister(unsigned char regAddress, unsigned char &data)
+int TestI2C::readRegister(unsigned char regAddress, unsigned char &data)
 {
         unsigned char *inbuff, outbuff;
         int retVal = -1;

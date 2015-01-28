@@ -13,7 +13,7 @@ class GyroControl
 		float tiltAngleX;
 		float tiltAngleY;
 		float tiltAngleZ;
-		int L3G4200D_Address;
+		unsigned char L3G4200D_Address;
 		float gyroSensitivity;
 		
 		void setupGyro();

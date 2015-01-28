@@ -11,12 +11,12 @@
 #include <string.h>
 
 
-class testI2C
+class TestI2C
 {
         public:
-                testI2C();
-                testI2C(unsigned char address);
-                ~testI2C();
+                TestI2C();
+                TestI2C(unsigned char address);
+                ~TestI2C();
                 int writeRegister(unsigned char regAddress, unsigned char data);
                 int readRegister(unsigned char regAddress, unsigned char &data);
 
