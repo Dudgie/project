@@ -21,17 +21,11 @@ I2CControl::I2CControl(unsigned char address)
         openI2C();
 }
 
-I2CControl::~I2CControl()
-{
-        closeI2C();
-}
-
 int I2CControl::openI2C()
 {
         i2cDescriptor = open(i2cFileName.c_str(), O_RDWR);
         if(i2cDescriptor < 0)
         {
-                perror("Could not open file (1)");
                 exit(1);
         }
 
@@ -44,7 +38,6 @@ int I2CControl::closeI2C()
         retVal = close(this->i2cDescriptor);
         if(retVal < 0)
         {
-                perror ("Could not close file (1)");
                 exit(1);
         }
         return retVal;
@@ -70,7 +63,7 @@ int I2CControl::writeRegister(unsigned char regAddress, unsigned char data)
 
         retVal = ioctl(this->i2cDescriptor, I2C_RSWR, &packets);
         if(retVal < 0)
-                perror ("Write to I2C Device failed");
+            
 
         return retVal;
 
@@ -100,7 +93,7 @@ int I2CControl::readRegister(unsigned char regAddress, unsigned char &data)
 
         retVal = ioctl(this->i2cDescriptor, I2C_RDWR, &packets);
         if(retVal < 0)
-                perror("read from I2C Device failed");
+                
 
         return retVal;
 }

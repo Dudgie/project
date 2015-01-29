@@ -19,11 +19,11 @@ class I2CControl
                 ~I2CControl();
                 int writeRegister(unsigned char regAddress, unsigned char data);
                 int readRegister(unsigned char regAddress, unsigned char &data);
-
+				int closeI2C();
+				
         private:
                 int openI2C();
-                int closeI2C();
-
+                
                 string i2cFileName;
                 int i2cDescriptor;
                 unsigned char deviceAddress;
