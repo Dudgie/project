@@ -1,4 +1,5 @@
 
+#include "I2CControl.h"
 
 class GyroControl
 {
