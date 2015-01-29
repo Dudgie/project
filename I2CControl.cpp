@@ -1,4 +1,4 @@
-include "testI2C.h"
+include "TestI2C.h"
 #include <iostream>
 
 using namespace std;
