@@ -1,10 +1,8 @@
-
-
 #include <string>
 #include <stdio.h>
-#include <linux/i2c.h> 
-#include <linux/i2c-dev.h>
 #include <fcntl.h>
+#include <linux/i2c.h> 
+#include <linux/i2c-dev.h> 
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -19,7 +17,7 @@ class I2CControl
                 ~I2CControl();
                 int writeRegister(unsigned char regAddress, unsigned char data);
                 int readRegister(unsigned char regAddress, unsigned char &data);
-				int closeI2C();
+		int closeI2C();
 				
         private:
                 int openI2C();
