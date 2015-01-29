@@ -85,7 +85,7 @@ int I2CControl::readRegister(unsigned char regAddress, unsigned char &data)
         struct i2c_rdwr_ioctl_data packets;
         struct i2c_msg messages[2];
 
-        outbuff = redAddress;
+        outbuff = regAddress;
         messages[0].addr = deviceAddress;
         messages[0].flags = 0;
         messages[0].len = sizeof(outbuff);
