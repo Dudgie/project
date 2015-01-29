@@ -15,7 +15,7 @@ using namespace std;
 I2CControl::I2CControl()
 {
         i2cFileName = "/dev/i2c-1";
-        deviceAdress = 0;
+        deviceAddress = 0;
         i2cDescriptor = -1;
         cout << "Opening I2C Device" << endl;
         openI2C();
