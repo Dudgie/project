@@ -5,31 +5,31 @@ using namespace std;
 
 I2CControl::I2CControl()
 {
-        this->i2cFileName = "/dev/i2c-1";
-        this->deviceAdress = 0;
-        this->i2cDescriptor = -1;
+        i2cFileName = "/dev/i2c-1";
+        deviceAdress = 0;
+        i2cDescriptor = -1;
         cout << "Opening I2C Device" << endl;
-        this->openI2C();
+        openI2C();
 }
 
 I2CControl::I2CControl(unsigned char address)
 {
-        this->i2cFileName = "/dev/i2c-1";
-        this->deviceAddress = address;
-        this->i2cDescriptor = -1;
+        i2cFileName = "/dev/i2c-1";
+        deviceAddress = address;
+        i2cDescriptor = -1;
         cout << "Opening I2C Device - " << deviceAddress << endl;
-        this->openI2C();
+        openI2C();
 }
 
 I2CControl::~I2CControl()
 {
-        this->closeI2C();
+        closeI2C();
 }
 
 int I2CControl::openI2C()
 {
-        this->i2cDescriptor = open(i2cFileName.c_str(), O_RDWR);
-        if(this->i2cDescriptor < 0)
+        i2cDescriptor = open(i2cFileName.c_str(), O_RDWR);
+        if(i2cDescriptor < 0)
         {
                 perror("Could not open file (1)");
                 exit(1);
