@@ -24,3 +24,4 @@ class I2CControl
                 int i2cDescriptor;
                 unsigned char deviceAddress;
 };
+`

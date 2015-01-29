@@ -1,5 +1,4 @@
 #include "I2CControl.h"
-#include <iostream>
 
 using namespace std;
 
@@ -61,9 +60,9 @@ int I2CControl::writeRegister(unsigned char regAddress, unsigned char data)
         packets.msgs = messages;
         packets.nmsgs = 1;
 
-        retVal = ioctl(this->i2cDescriptor, I2C_RSWR, &packets);
+        retVal = ioctl(this->i2cDescriptor, I2C_RDWR, &packets);
         if(retVal < 0)
-            
+            exit(1);
 
         return retVal;
 
@@ -93,7 +92,7 @@ int I2CControl::readRegister(unsigned char regAddress, unsigned char &data)
 
         retVal = ioctl(this->i2cDescriptor, I2C_RDWR, &packets);
         if(retVal < 0)
-                
+                exit(1);
 
         return retVal;
 }
