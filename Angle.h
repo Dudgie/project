@@ -1,3 +1,6 @@
+#ifndef ANGLE_H
+#define ANGLE_H
+
 #define CTRL_REG1 0x20
 #define CTRL_REG2 0x21
 #define CTRL_REG3 0x22
@@ -24,56 +27,66 @@
 #define PI 3.14159265359
 
 #include <iostream>
+#include <math.h>
+#include <chrono>
+#include <ctime>
 
 class Angle
 {
-        public:
-                Angle();
-                void setupAngle();
-                void updateAngle();
-                void getAngle(float &x, float &y, float &z);
+    public:
+		Angle();
+		void setupAngle();
+		void updateAngle();
+		void getAngle(float &x, float &y);
         
-        private:
+    private:
 
-                unsigned char gyroAddress;
-                unsigned char accelAddress;
-                std::string fileName;
-                
-                i2c8Bit gyro;
-                i2c8Bit accel;
+		unsigned char gyroAddress;
+		unsigned char accelAddress;
+		std::string fileName;
+		
+		i2c8Bit* gyro;
+		i2c8Bit* accel;
 
-                unsigned char xMSBgyro;
-                unsigned char xLSBgyro;
-                float xGyro;
-        
-                unsigned char yMSBgyro;
-                unsigned char yLSBgyro;
-                float yGyro;
-        
-                unsigned char zMSBgyro;
-                unsigned char zLSBgyro;
-                float zGyro;
-        
-                unsigned char xMSBaccel;
-                unsigned char xLSBaccel;
-                float xAccel;
-        
-                unsigned char yMSBaccel;
-                unsigned char yLSBaccel;
-                float yAccel;
-        
-                unsigned char zMSBaccel;
-                unsigned char zLSBaccel;
-                float zAccel;
-                
-                float gyroSensitivity;
-                
-                float xAngleGyro;
-                float yAngleGyro;
-                float zAngleGyro;
-                
-                float oldPass;
-                                float newPass;
-                                float lowPass;
-                                float highPass;
+		unsigned char xMSBgyro;
+		unsigned char xLSBgyro;
+		float xGyro;
+
+		unsigned char yMSBgyro;
+		unsigned char yLSBgyro;
+		float yGyro;
+
+		unsigned char zMSBgyro;
+		unsigned char zLSBgyro;
+		float zGyro;
+
+		unsigned char xMSBaccel;
+		unsigned char xLSBaccel;
+		float xAccel;
+
+		unsigned char yMSBaccel;
+		unsigned char yLSBaccel;
+		float yAccel;
+
+		unsigned char zMSBaccel;
+		unsigned char zLSBaccel;
+		float zAccel;
+
+		float accelX;
+		float accelY;
+		float accelZ;
+
+		float gyroSensitivity;
+		
+		float gyroTotalX;
+		float gyroTotalY;
+		float gyroTotalZ;
+		std::chrono::time_point<std::chrono::system_clock> start, end;
+
+		float oldPass;
+		float newPass;
+		float lowPass;
+		float highPass;
+
 };
+#endif
