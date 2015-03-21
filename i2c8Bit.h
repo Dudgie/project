@@ -30,7 +30,7 @@ class i2c8Bit
  
         // private member variables
         std::string  i2cFileName; //i2c device name e.g."/dev/i2c-0" or "/dev/i2c-1"
-                int i2cDescriptor;  // i2c device descriptor 
+        int i2cDescriptor;  // i2c device descriptor 
         unsigned char deviceAddress; // i2c device address
 };
  
