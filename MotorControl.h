@@ -1,6 +1,8 @@
 #ifndef MOTORCONTROL_H
 #define MOTORCONTROL_H
-
+#include <iostream>
+#include <string>
+#include <unistd.h>
 using namespace std;
 
 class MotorControl

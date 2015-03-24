@@ -1,8 +1,5 @@
 
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <sstream>
+
 #include "GPIOControl.h"
 
 using namespace std;
