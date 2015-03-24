@@ -2,84 +2,77 @@
 #include <iostream>
  
 using namespace std;
-/*****************************************************************
- * This is the default constructor for the class. It assigns
- * all private variables to default values and calls the openI2C()
- * function to open the default I2C device "/dev/i2c-0". 
- *****************************************************************/
-i2c8Bit::i2c8Bit(void){
+/*
+	This is the default constructor for the class.
+	Default values are
+		fileName -> i2c 0 file
+		address 0
+*/
+i2c8Bit::i2c8Bit(void)
+{
     this->i2cFileName = "/dev/i2c-0"; 
     this->deviceAddress= 0;
-        this->i2cDescriptor = -1;
-        cout << " Opening I2C Device" << endl;
-        this->openI2C();
- 
-}
- 
-/*******************************************************************
- * This is the overloaded constructor. It allows the programmer to 
- * specify a custom I2C device & device address
- * The device descriptor is determined by the openI2C() private member 
- * function call.
- * *****************************************************************/
- 
-i2c8Bit::i2c8Bit(unsigned char dev_addr, std::string i2c_file_name){
-    this->i2cFileName = i2c_file_name;
-    this->deviceAddress = dev_addr;
-        this->i2cDescriptor = -1; 
-        cout << " Opening I2C Device" << endl;
+    this->i2cDescriptor = -1;
+    cout << " Opening I2C Device" << endl;
     this->openI2C();
 }
-/**********************************************************************
- * This is the class destructor it simply closes the open I2C device
- * by calling the closeI2C() which in turn calls the close() system call
- * *********************************************************************/
  
-i2c8Bit::~i2c8Bit(void){
-        cout << " Closing I2C Device" << endl;
+/*
+	Overloaded constructor, allows a different address and filename
+	As I'm using a newer pi, the address is at i2c 1 file and the addresses of the
+	devices are non-zero so this is what I will use
+	
+	openI2C() is called to open the device after defining the values
+*/
+i2c8Bit::i2c8Bit(unsigned char dev_addr, std::string i2c_file_name)
+{
+    this->i2cFileName = i2c_file_name;
+    this->deviceAddress = dev_addr;
+    this->i2cDescriptor = -1; 
+    cout << " Opening I2C Device" << endl;
+    this->openI2C();
+}
+
+/*
+	Default deconstructor
+	called when the program finished to avoid unnecessary memory usage
+*/ 
+i2c8Bit::~i2c8Bit(void)
+{
+    cout << " Closing I2C Device" << endl;
     this->closeI2C();
 }
  
-/**********************************************************************
- * This function opens the I2C device by simply calling the open system
- * call on the I2C device specified in the i2cFileName string. The I2C
- * device is opened for writing and reading. The i2cDescriptor private 
- * variable is set by the return value of the open() system call.
- * This variable will be used to reference the opened I2C device by the 
- * ioctl() & close() system calls.
- * ********************************************************************/ 
- 
+/*
+	Opens a i2c device.
+	Uses the open() function from i2c library on the raspberry pi
+*/
 int i2c8Bit::openI2C(){
     this->i2cDescriptor = open(i2cFileName.c_str(), O_RDWR);
     if(this->i2cDescriptor < 0){
         perror("Could not open file (1)");
         exit(1);
     }
- 
     return i2cDescriptor;
 }
  
-/*********************************************************************
- * This function closes the I2C device by calling the close() system call 
- * on the I2C device descriptor.    
- * *******************************************************************/
- 
+/*
+	Closes the i2c device using the close function from the i2c library
+*/
 int i2c8Bit::closeI2C(){
-                int retVal = -1;
-        retVal = close(this->i2cDescriptor);
+    int retVal = -1;
+    retVal = close(this->i2cDescriptor);
     if(retVal < 0){
         perror("Could not close file (1)");
         exit(1);
     }
-return retVal;
+	return retVal;
 }
-/********************************************************************
- *This function writes a byte of data "data" to a specific register 
- *"reg_addr" in the I2C device This involves sending these two bytes 
- *in order to the i2C device by means of the ioctl() command. Since  
- *both bytes are written (no read/write switch), both pieces
- *of information can be sent in a single message (i2c_msg structure)
- ********************************************************************/
+
+/*
+	Reads a register from the device
+	uses the i2c structure from the i2c library
+*/
 int i2c8Bit::writeReg(unsigned char reg_addr, unsigned char data){
  
     unsigned char buff[2];
@@ -105,17 +98,12 @@ int i2c8Bit::writeReg(unsigned char reg_addr, unsigned char data){
     return retVal;
 }
 
-/********************************************************************
- *This function reads a byte of data "data" from a specific register 
- *"reg_addr" in the I2C device. This involves sending the register address 
- *byte "reg_Addr" with "write" asserted and then instructing the 
- *I2C device to read a byte of data from that address ("read asserted"). 
- *This necessitates the use of two i2c_msg structs. One for the register 
- *address write and another for the read from the I2C device i.e. 
- *I2C_M_RD flag is set. The read data is then saved into the reference
- *variable "data". 
- ********************************************************************/
- 
+/*
+	Reads a register on the i2c device
+	This is achieved by first writing a value to the register showing that a read
+	is just about to take place.
+	The read then can take place
+*/
 int i2c8Bit::readReg(unsigned char reg_addr, unsigned char &data){
  
     unsigned char *inbuff, outbuff;

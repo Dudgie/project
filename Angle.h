@@ -82,11 +82,5 @@ class Angle
 		float gyroTotalY;
 		float gyroTotalZ;
 		std::chrono::time_point<std::chrono::system_clock> start, end;
-
-		float oldPass;
-		float newPass;
-		float lowPass;
-		float highPass;
-
 };
 #endif
