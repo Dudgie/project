@@ -1,14 +1,5 @@
-//
-//  TrackObject.cpp
-//  Balancing Table
-//
-//  Created by Ben Dudgeon on 29/08/2014.
-//  Copyright (c) 2014 BenProject. All rights reserved.
-//
 
 #include "TrackObject.h"
-#include <opencv/highgui.h>
-#include <opencv/cv.h>
 
 using namespace cv;
 using namespace std;
