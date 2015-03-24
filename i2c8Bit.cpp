@@ -1,4 +1,4 @@
-#include "i2c8Bit.h"
+#include "i2cControl.h"
 #include <iostream>
  
 using namespace std;
@@ -8,7 +8,7 @@ using namespace std;
 		fileName -> i2c 0 file
 		address 0
 */
-i2c8Bit::i2c8Bit(void)
+i2cControl::i2cControl(void)
 {
     this->i2cFileName = "/dev/i2c-0"; 
     this->deviceAddress= 0;
@@ -24,7 +24,7 @@ i2c8Bit::i2c8Bit(void)
 	
 	openI2C() is called to open the device after defining the values
 */
-i2c8Bit::i2c8Bit(unsigned char dev_addr, std::string i2c_file_name)
+i2cControl::i2cControl(unsigned char dev_addr, std::string i2c_file_name)
 {
     this->i2cFileName = i2c_file_name;
     this->deviceAddress = dev_addr;
@@ -37,7 +37,7 @@ i2c8Bit::i2c8Bit(unsigned char dev_addr, std::string i2c_file_name)
 	Default deconstructor
 	called when the program finished to avoid unnecessary memory usage
 */ 
-i2c8Bit::~i2c8Bit(void)
+i2cControl::~i2cControl(void)
 {
     cout << " Closing I2C Device" << endl;
     this->closeI2C();
@@ -47,7 +47,7 @@ i2c8Bit::~i2c8Bit(void)
 	Opens a i2c device.
 	Uses the open() function from i2c library on the raspberry pi
 */
-int i2c8Bit::openI2C(){
+int i2cControl::openI2C(){
     this->i2cDescriptor = open(i2cFileName.c_str(), O_RDWR);
     if(this->i2cDescriptor < 0){
         perror("Could not open file (1)");
@@ -59,7 +59,7 @@ int i2c8Bit::openI2C(){
 /*
 	Closes the i2c device using the close function from the i2c library
 */
-int i2c8Bit::closeI2C(){
+int i2cControl::closeI2C(){
     int retVal = -1;
     retVal = close(this->i2cDescriptor);
     if(retVal < 0){
@@ -73,7 +73,7 @@ int i2c8Bit::closeI2C(){
 	Reads a register from the device
 	uses the i2c structure from the i2c library
 */
-int i2c8Bit::writeReg(unsigned char reg_addr, unsigned char data){
+int i2cControl::writeReg(unsigned char reg_addr, unsigned char data){
  
     unsigned char buff[2];
     int retVal = -1;
@@ -104,7 +104,7 @@ int i2c8Bit::writeReg(unsigned char reg_addr, unsigned char data){
 	is just about to take place.
 	The read then can take place
 */
-int i2c8Bit::readReg(unsigned char reg_addr, unsigned char &data){
+int i2cControl::readReg(unsigned char reg_addr, unsigned char &data){
  
     unsigned char *inbuff, outbuff;
     int retVal = -1;
