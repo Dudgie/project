@@ -5,7 +5,9 @@ Store::Store ()
 {
 }
 
-
+/*
+	Converts an integer to a string so the file can hold it
+*/
 string Store::intToString (int hMin,int hMax,int sMin,int sMax,int vMin,int vMax)
 {
 	stringstream ss;
@@ -13,7 +15,10 @@ string Store::intToString (int hMin,int hMax,int sMin,int sMax,int vMin,int vMax
 	cout << "HSV values into store : " << ss.str() << endl;
 	return ss.str();
 }
-	
+
+/*
+	Converts the string back to integers to use in my program
+*/
 void Store::stringToInt (string stringIn)
 {
 	//Split the string
@@ -38,11 +43,11 @@ void Store::stringToInt (string stringIn)
 	cout << "vMIN =" << vMIN << ", ";
 	cout << "vMAX =" << vMAX << ", " << endl;
 }
-	
-	/*
-		Uses File writing to write to the file
-		To then be collected on startup
-	*/
+
+/*
+	Uses File writing to write to the file
+	To then be collected on startup
+*/
 void Store::writeToFile(string stringOut)
 {
 	ofstream myfile;
@@ -52,9 +57,9 @@ void Store::writeToFile(string stringOut)
 }
 
 	
-	/*
-		Gets the old filter values on startup
-	*/
+/*
+	Gets the old filter values on startup
+*/
 string Store::readFromFile()
 {
 	string line;

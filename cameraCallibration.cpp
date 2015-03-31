@@ -1,34 +1,15 @@
-//
-//  main.cpp
-//  Balancing Table
-//
-//  Created by Ben Dudgeon on 29/08/2014.
-//  Copyright (c) 2014 BenProject. All rights reserved.
-//
-
 #include <iostream>
 #include <opencv/highgui.h>
 #include <opencv/cv.h>
 #include <signal.h>
 #include "TrackObject.h"
-#include "PID.h"
 #include "store.h"
-#include "GPIOControl.h"
-#include "MotorControl.h"
-
 
 using namespace cv;
-using namespace std;
 
-//The various classes used included into the program
 TrackObject *track;
-PID *controller;
 Store *store;
 
-MotorControl *motorA;
-MotorControl *motorB;
-
-//Booleans to decide what is displayed on the screen
 bool tracking = true;
 bool display = true;
 
@@ -121,9 +102,6 @@ int main(int argc, const char * argv[])
     vMinValue = store->getVMIN();
     vMaxValue = store->getVMAX();
     
-    motorA->startMotor();
-    motorB->startMotor();
-    
     while (true)
     {
         //From Image stream to X, Y values
@@ -133,20 +111,10 @@ int main(int argc, const char * argv[])
         track->binaryToXY();
         track->displayXY();
         
-        //x, y to distance
-        controller->CoOrdinateToDistance(track->getX(), track->getY());
-        controller->XYToError();
-        controller->ErrorToTilt();
-        
-        motorA->changeAngle(controller->getTiltX());
-        motorB->changeAngle(controller->getTiltY());
-        
         waitKey(1);
         if (ctrlCPressed)
         {
             cout << "Quitting" << endl;
-            motorA->stopMotor();
-            motorB->stopMotor();
             //Gives back the new values to the store
             string values = store->intToString(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
 			store->writeToFile(values);

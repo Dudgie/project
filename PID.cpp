@@ -39,20 +39,19 @@ PID::PID ()
     tiltAngleX = 0;	
 }
 
-    /*
-    	converts from the camera pixels to the distance
-    */
+/*
+    converts from the camera pixels to the distance
+*/
 void PID::CoOrdinateToDistance (int inputX, int inputY)
 {
 	x = inputX * conversion;
 	y = inputY * conversion;
 }
     
-    /*
-    	PID controller
-    	
-    	Transforms the x to y distance into an error which can be put equal to the tilt angle;
-    */
+/*
+    PID controller
+    Transforms the x to y distance into an error which can be put equal to the tilt angle;
+*/
 void PID::XYToError ()
 {
 	errorY = setPointY - y;
@@ -67,7 +66,11 @@ void PID::XYToError ()
 	pErrorX = errorX;
 	errorX = errorX*Kp + integralX*Ki + derivativeX*Kd;
 }
-    
+
+/*
+	Error equals tilt as they will differ by constants which I can set in previous
+	functions
+*/    
 void PID::ErrorToTilt()
 {
 	tiltAngleX = errorX;

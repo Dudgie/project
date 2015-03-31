@@ -5,17 +5,11 @@ class PID
     
     float x; float y;
     float errorY, pErrorY, setPointY;
-    
     float errorX, pErrorX, setPointX;
-    
     float timeGap;
-    
     float derivativeY, integralY;
-    
     float derivativeX, integralX;
-    
     float Kp, Ki, Kd;
-    
     float tiltAngleY, tiltAngleX;
     
     public:

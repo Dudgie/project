@@ -3,14 +3,11 @@
 #include <unistd.h>
 #include "GPIOControl.h"
 using namespace std;
-
-//GPIOControl* enableA = new GPIOControl("23");
-  //  GPIOControl* enableB = new GPIOControl("17");
     
-    GPIOControl* aInputOne = new GPIOControl("4");
-    GPIOControl* aInputTwo = new GPIOControl("24");
-    GPIOControl* bInputOne = new GPIOControl("27");
-    GPIOControl* bInputTwo = new GPIOControl("18");
+GPIOControl* aInputOne = new GPIOControl("4");
+GPIOControl* aInputTwo = new GPIOControl("24");
+GPIOControl* bInputOne = new GPIOControl("27");
+GPIOControl* bInputTwo = new GPIOControl("18");
 
 bool ctrlCPressed = false;
 
@@ -42,25 +39,18 @@ int main(int argc, const char * argv[])
     }
     
     int delay = 0;
-    
-    //enableA->exportGPIO();
-    //enableB->exportGPIO();
+	
     aInputOne->exportGPIO();
     aInputTwo->exportGPIO();
     bInputOne->exportGPIO();
     bInputTwo->exportGPIO();
     usleep(delay);
 
-    //enableA->setDirection("out");
-    //enableB->setDirection("out");
     aInputOne->setDirection("out");
     aInputTwo->setDirection("out");
     bInputOne->setDirection("out");
     bInputTwo->setDirection("out");
     usleep(delay);
-
-    //enableA->setValue("1");
-    //enableB->setValue("1");
     
     while (true)
     {
@@ -80,11 +70,6 @@ int main(int argc, const char * argv[])
             cout << "Quitting" << endl;
             
             step("0","0","0","0");
-      //      enableA->setValue("0");
-        //    enableB->setValue("0");
-            
-          //  enableA->unexportGPIO();
-           // enableB->unexportGPIO();
             aInputOne->unexportGPIO();
             aInputTwo->unexportGPIO();
             bInputOne->unexportGPIO();
