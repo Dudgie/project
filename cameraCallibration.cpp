@@ -2,12 +2,12 @@
 #include <opencv/highgui.h>
 #include <opencv/cv.h>
 #include <signal.h>
-#include "TrackObject.h"
+//#include "TrackObject.h"
 #include "store.h"
 
 using namespace cv;
 
-TrackObject *track;
+//TrackObject *track;
 Store *store;
 
 bool tracking = true;
@@ -79,8 +79,8 @@ int main(int argc, const char * argv[])
         cout << "Problem with sigaction" << endl;
         exit (1);
     }
-    track->startCameraFeed();
-    track->giveDisplay (display);
+    //track->startCameraFeed();
+    //track->giveDisplay (display);
     
     //checks if the user wants to display
     if (display)
@@ -105,11 +105,11 @@ int main(int argc, const char * argv[])
     while (true)
     {
         //From Image stream to X, Y values
-        track->displayCameraFeed();
-        track->giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
-        track->imageToBinary();
-        track->binaryToXY();
-        track->displayXY();
+        //track->displayCameraFeed();
+        //track->giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
+        //track->imageToBinary();
+        //track->binaryToXY();
+        //track->displayXY();
         
         waitKey(1);
         if (ctrlCPressed)
