@@ -109,7 +109,7 @@ int main(int argc, const char * argv[])
         //track->giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
         //track->imageToBinary();
         //track->binaryToXY();
-        //track->displayXY();
+        //track->displayXY()
         
         waitKey(1);
         if (ctrlCPressed)
