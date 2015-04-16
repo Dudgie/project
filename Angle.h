@@ -45,8 +45,8 @@ class Angle
 		unsigned char accelAddress;
 		std::string fileName;
 		
-		i2c8Bit* gyro;
-		i2c8Bit* accel;
+		I2CControl* gyro;
+		I2CControl* accel;
 
 		unsigned char xMSBgyro;
 		unsigned char xLSBgyro;

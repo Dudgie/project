@@ -1,4 +1,4 @@
-#include "i2c8Bit.h"
+#include "I2CControl.h"
 #include "Angle.h"
 #include <iostream>
 
@@ -12,8 +12,8 @@ Angle::Angle()
 	unsigned char gyroAddress = (unsigned char)105;
 	unsigned char accelAddress = (unsigned char)83;
 	std::string fileName = "/dev/i2c-1";
-	gyro = new i2c8Bit(gyroAddress, fileName);
-	accel = new i2c8Bit(accelAddress, fileName);
+	gyro = new I2CControl(gyroAddress, fileName);
+	accel = new I2CControl(accelAddress, fileName);
 
 	start = std::chrono::system_clock::now();
 	gyroTotalX = 0;

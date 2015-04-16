@@ -2,13 +2,13 @@
 #include <opencv/highgui.h>
 #include <opencv/cv.h>
 #include <signal.h>
-//#include "TrackObject.h"
+#include "TrackObject.h"
 #include "store.h"
 
 using namespace cv;
 
-//TrackObject *track;
-Store *store;
+TrackObject track;
+Store store;
 
 bool tracking = true;
 bool display = true;
@@ -26,6 +26,7 @@ int vMinValue = 0; int vMaxValue = 0;
 bool ctrlCPressed = false;
 
 //Function to make the trackbars work
+
 void trackIt (int, void*)
 {
     
@@ -57,6 +58,7 @@ void createTrackBars()
 	Controls the exit signal when exit is called.
 	processes data before closes.
 */
+
 void sig_handler (int sig)
 {
     ctrlCPressed = true;
@@ -68,6 +70,7 @@ int main(int argc, const char * argv[])
 	/*
 		Structure to set up the signal handler
 	*/
+	
     struct sigaction sig_struct;
     sig_struct.sa_handler = sig_handler;
     sig_struct.sa_flags = 0;
@@ -79,10 +82,13 @@ int main(int argc, const char * argv[])
         cout << "Problem with sigaction" << endl;
         exit (1);
     }
-  //  track->startCameraFeed();
-  //  track->giveDisplay (display);
+	
+
+    track.startCameraFeed();
+    track.giveDisplay (display);
     
     //checks if the user wants to display
+
     if (display)
     {
    		namedWindow("webcamFeed", 1);
@@ -94,33 +100,38 @@ int main(int argc, const char * argv[])
     if (tracking && display)
     	createTrackBars();
     //Gets Values from the Store
-    store->stringToInt(store->readFromFile());
-    hMinValue = store->getHMIN();
-    hMaxValue = store->getHMAX();
-    sMinValue = store->getSMIN();
-    sMaxValue = store->getSMAX();
-    vMinValue = store->getVMIN();
-    vMaxValue = store->getVMAX();
+    store.stringToInt(store.readFromFile());
+
+    hMinValue = store.getHMIN();
+    hMaxValue = store.getHMAX();
+    sMinValue = store.getSMIN();
+    sMaxValue = store.getSMAX();
+    vMinValue = store.getVMIN();
+    vMaxValue = store.getVMAX();
     
     while (true)
     {
+	//std::cout << "running" << std::endl;
+
         //From Image stream to X, Y values
-    //    track->displayCameraFeed();
-    //    track->giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
-    //    track->imageToBinary();
-    //    track->binaryToXY();
-    //    track->displayXY();
+        track.displayCameraFeed();
+        track.giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
+        track.imageToBinary();
+        track.binaryToXY();
+        track.displayXY();
         
         waitKey(1);
+
         if (ctrlCPressed)
         {
             cout << "Quitting" << endl;
             //Gives back the new values to the store
-            string values = store->intToString(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
-			store->writeToFile(values);
+            string values = store.intToString(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
+	    store.writeToFile(values);
             
             break;
         }
+
     }
     return 0;
 }
