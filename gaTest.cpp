@@ -1,5 +1,5 @@
 #include <iostream>
-#include "i2c8Bit.h"
+#include "I2CControl.h"
 #include "Angle.h"
 
 Angle angle;
