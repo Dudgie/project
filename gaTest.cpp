@@ -1,5 +1,5 @@
 #include <iostream>
-#include "I2CControl.h"
+#include "i2cControl.h"
 #include "Angle.h"
 
 Angle angle;
@@ -13,7 +13,7 @@ int main (int argc, const char * argv[])
         while (true)
         {
                 angle.updateAngle();
-                angle.getAngle(x, y, z);
-                std::cout << "Angles are : " << x << ", " << y << ", " << z << std::endl;
+                angle.getAngle(x, y);
+                std::cout << "Angles are : " << x << ", " << y << std::endl;
         }
 };

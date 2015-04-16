@@ -1,4 +1,4 @@
-#include "I2CControl.h"
+#include "i2cControl.h"
 #include "Angle.h"
 #include <iostream>
 
@@ -12,8 +12,8 @@ Angle::Angle()
 	unsigned char gyroAddress = (unsigned char)105;
 	unsigned char accelAddress = (unsigned char)83;
 	std::string fileName = "/dev/i2c-1";
-	gyro = new I2CControl(gyroAddress, fileName);
-	accel = new I2CControl(accelAddress, fileName);
+	gyro = new i2cControl(gyroAddress, fileName);
+	accel = new i2cControl(accelAddress, fileName);
 
 	start = std::chrono::system_clock::now();
 	gyroTotalX = 0;
@@ -124,8 +124,8 @@ void Angle::updateAngle()
 */
 void Angle::getAngle(float &x, float &y)
 {
-	//std::cout << "Acce values are : " << accelX << ", " << accelZ << std::endl;
-	//std::cout << "Gyro values are : " << gyroTotalX*-1 << ", " << gyroTotalY << std::endl;
-	x = gyroTotalX*-0.98 + accelX*0.02;
-	y = gyroTotalY*0.98 + accelZ*0.02;
+	//std::cout << "Acce values are : " << accelX << ", " << accelZ << ", " << accelY << std::endl;
+	//std::cout << "Gyro values are : " << gyroTotalX*-1 << ", " << gyroTotalY << ", " << gyroTotalZ << std::endl;
+	x = gyroTotalX*0.98 + accelX*0.02;
+	y = gyroTotalY*-0.98 + accelZ*0.02;
 }
