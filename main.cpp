@@ -5,6 +5,7 @@
 #include "TrackObject.h"
 #include "store.h"
 #include "Angle.h"
+#include "PID.h"
 
 
 using namespace cv;
@@ -12,6 +13,7 @@ using namespace cv;
 TrackObject track;
 Store store;
 Angle angle;
+PID controller;
 
 bool tracking = true;
 bool display = true;
@@ -73,7 +75,10 @@ int main(int argc, const char * argv[])
 	/*
 		Structure to set up the signal handler
 	*/
-	
+	float CurrentX = 0;
+	float CurrentY = 0;
+	float DesiredX = 0;
+	float DesiredY = 0;
     struct sigaction sig_struct;
     sig_struct.sa_handler = sig_handler;
     sig_struct.sa_flags = 0;
@@ -122,6 +127,17 @@ int main(int argc, const char * argv[])
         track.imageToBinary();
         track.binaryToXY();
         track.displayXY();
+        
+        controller.CoOrdinateToDistance(track.getX, track.getY);
+        controller.XYToError();
+        controller.ErrorToTilt();
+        
+        angle.updateAngle();
+        angle.getAngle(CurrentX, CurrentY);
+        
+        DesiredX = controller.getTiltX() - CurrentX;
+        
+        std::cout << "Angle difference : " << DesiredX << std::endl;
         
         waitKey(1);
 

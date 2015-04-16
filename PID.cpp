@@ -31,9 +31,9 @@ PID::PID ()
     derivativeX = 0;
     integralX = 0;
     
-    Kp = -0.1;
+    Kp = 0.001;
     Ki = 0;
-    Kd = -0.1;
+    Kd = 0;
     
     tiltAngleY = 0;
     tiltAngleX = 0;	
