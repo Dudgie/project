@@ -1,34 +1,18 @@
-//
-//  main.cpp
-//  Balancing Table
-//
-//  Created by Ben Dudgeon on 29/08/2014.
-//  Copyright (c) 2014 BenProject. All rights reserved.
-//
-
 #include <iostream>
 #include <opencv/highgui.h>
 #include <opencv/cv.h>
 #include <signal.h>
 #include "TrackObject.h"
-#include "PID.h"
 #include "store.h"
-#include "GPIOControl.h"
-#include "MotorControl.h"
+#include "Angle.h"
 
 
 using namespace cv;
-using namespace std;
 
-//The various classes used included into the program
-TrackObject *track;
-PID *controller;
-Store *store;
+TrackObject track;
+Store store;
+Angle angle;
 
-MotorControl *motorA;
-MotorControl *motorB;
-
-//Booleans to decide what is displayed on the screen
 bool tracking = true;
 bool display = true;
 
@@ -45,6 +29,7 @@ int vMinValue = 0; int vMaxValue = 0;
 bool ctrlCPressed = false;
 
 //Function to make the trackbars work
+
 void trackIt (int, void*)
 {
     
@@ -76,6 +61,7 @@ void createTrackBars()
 	Controls the exit signal when exit is called.
 	processes data before closes.
 */
+
 void sig_handler (int sig)
 {
     ctrlCPressed = true;
@@ -87,6 +73,7 @@ int main(int argc, const char * argv[])
 	/*
 		Structure to set up the signal handler
 	*/
+	
     struct sigaction sig_struct;
     sig_struct.sa_handler = sig_handler;
     sig_struct.sa_flags = 0;
@@ -97,10 +84,13 @@ int main(int argc, const char * argv[])
     {
         cout << "Problem with sigaction" << endl;
         exit (1);
-    }
-    track->startCameraFeed();
-    track->giveDisplay (display);
+    }	
+
+    track.startCameraFeed();
+    track.giveDisplay (display);
     
+    angle.setupAngle();
+
     //checks if the user wants to display
     if (display)
     {
@@ -113,46 +103,38 @@ int main(int argc, const char * argv[])
     if (tracking && display)
     	createTrackBars();
     //Gets Values from the Store
-    store->stringToInt(store->readFromFile());
-    hMinValue = store->getHMIN();
-    hMaxValue = store->getHMAX();
-    sMinValue = store->getSMIN();
-    sMaxValue = store->getSMAX();
-    vMinValue = store->getVMIN();
-    vMaxValue = store->getVMAX();
-    
-    motorA->startMotor();
-    motorB->startMotor();
+    store.stringToInt(store.readFromFile());
+
+    hMinValue = store.getHMIN();
+    hMaxValue = store.getHMAX();
+    sMinValue = store.getSMIN();
+    sMaxValue = store.getSMAX();
+    vMinValue = store.getVMIN();
+    vMaxValue = store.getVMAX();
     
     while (true)
     {
+	//std::cout << "running" << std::endl;
+
         //From Image stream to X, Y values
-        track->displayCameraFeed();
-        track->giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
-        track->imageToBinary();
-        track->binaryToXY();
-        track->displayXY();
-        
-        //x, y to distance
-        controller->CoOrdinateToDistance(track->getX(), track->getY());
-        controller->XYToError();
-        controller->ErrorToTilt();
-        
-        motorA->changeAngle(controller->getTiltX());
-        motorB->changeAngle(controller->getTiltY());
+        track.displayCameraFeed();
+        track.giveValues(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
+        track.imageToBinary();
+        track.binaryToXY();
+        track.displayXY();
         
         waitKey(1);
+
         if (ctrlCPressed)
         {
             cout << "Quitting" << endl;
-            motorA->stopMotor();
-            motorB->stopMotor();
             //Gives back the new values to the store
-            string values = store->intToString(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
-			store->writeToFile(values);
+            string values = store.intToString(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
+	    store.writeToFile(values);
             
             break;
         }
+
     }
     return 0;
 }

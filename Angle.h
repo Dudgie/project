@@ -27,6 +27,7 @@
 #define PI 3.14159265359
 
 #include <iostream>
+#include "i2cControl.h"
 #include <math.h>
 #include <chrono>
 #include <ctime>

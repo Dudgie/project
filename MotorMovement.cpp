@@ -6,7 +6,7 @@ using namespace std;
     
 GPIOControl* aInputOne = new GPIOControl("4");
 GPIOControl* aInputTwo = new GPIOControl("24");
-GPIOControl* bInputOne = new GPIOControl("27");
+GPIOControl* bInputOne = new GPIOControl("23");
 GPIOControl* bInputTwo = new GPIOControl("18");
 
 bool ctrlCPressed = false;
