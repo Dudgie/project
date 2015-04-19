@@ -16,7 +16,7 @@ Angle angle;
 PID controller;
 
 bool tracking = true;
-bool display = true;
+bool display = false;
 
 //Values for the ranges to filter the image
 int hMIN = 0; int hMAX = 256;
@@ -128,10 +128,10 @@ int main(int argc, const char * argv[])
         track.binaryToXY();
         track.displayXY();
         
-        controller.CoOrdinateToDistance(track.getX, track.getY);
+        controller.CoOrdinateToDistance(track.getX(), track.getY());
         controller.XYToError();
         controller.ErrorToTilt();
-        
+        //std::cout << "test :" << track.getX() << std::endl;
         angle.updateAngle();
         angle.getAngle(CurrentX, CurrentY);
         

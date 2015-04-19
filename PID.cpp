@@ -12,11 +12,11 @@
 PID::PID ()
 {
     surfaceHeight = 0.45;
-    surfaceWidth = 0.6;
+    surfaceWidth = 0.45;
     cameraHeight = 480;
     
     conversion = surfaceHeight/cameraHeight;
-    
+    timeGap = 1;
     errorY = 0;
     pErrorY = 0;
     setPointY = surfaceHeight/2;
@@ -31,7 +31,7 @@ PID::PID ()
     derivativeX = 0;
     integralX = 0;
     
-    Kp = 0.001;
+    Kp = 10;
     Ki = 0;
     Kd = 0;
     
@@ -64,7 +64,11 @@ void PID::XYToError ()
 	integralX = integralX + errorX*timeGap;
 	derivativeX = (errorX - pErrorX)/timeGap;
 	pErrorX = errorX;
+	//std::cout << "x number 1 : " << errorX << std::endl;
+	//std::cout << "integral : " << integralX << std::endl;
+	//std::cout << "derivative : " << derivativeX << std::endl;
 	errorX = errorX*Kp + integralX*Ki + derivativeX*Kd;
+	//std::cout << "x number 2 : " << errorX*Kp << std::endl;
 }
 
 /*
@@ -75,4 +79,5 @@ void PID::ErrorToTilt()
 {
 	tiltAngleX = errorX;
 	tiltAngleY = errorY;
+	//std::cout << "x number 3 : " << tiltAngleX << std::endl;
 }

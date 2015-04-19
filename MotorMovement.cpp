@@ -38,8 +38,8 @@ int main(int argc, const char * argv[])
         return 1;
     }
     
-    int delay = 0;
-	
+    int delay = 1000000;
+    int delay2 = 10000;
     aInputOne->exportGPIO();
     aInputTwo->exportGPIO();
     bInputOne->exportGPIO();
@@ -56,13 +56,13 @@ int main(int argc, const char * argv[])
     {
     	
     	step("1","0","1","0");
-    	usleep(delay);
+    	usleep(delay2);
     	step("0","1","1","0");
-    	usleep(delay);
+    	usleep(delay2);
     	step("0","1","0","1");
-    	usleep(delay);
+    	usleep(delay2);
    		step("1","0","0","1");
-    	usleep(delay);
+    	usleep(delay2);
     	
     	
     	if (ctrlCPressed)
