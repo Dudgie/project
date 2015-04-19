@@ -6,10 +6,10 @@ using namespace std;
 
 MotorControl::MotorControl()
 {
-	GPIOControl aInputOne("4");
-    GPIOControl aInputTwo("24");
-    GPIOControl bInputOne("23");
-    GPIOControl bInputTwo("18");
+	GPIOControl aInputOne = new GPIOControl("4");
+    GPIOControl aInputTwo = new GPIOControl("24");
+    GPIOControl bInputOne = new GPIOControl("23");
+    GPIOControl bInputTwo = new GPIOControl("18");
     phaseNumber = 1;
 }
 
