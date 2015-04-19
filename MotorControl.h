@@ -12,10 +12,10 @@ class MotorControl
 		float tiltAngle;
 		int stepNumber;
 		int phaseNumber;
-		GPIOControl* aInputOne;
-		GPIOControl* aInputTwo;
-		GPIOControl* bInputOne;
-		GPIOControl* bInputTwo;
+		GPIOControl aInputOne;
+		GPIOControl aInputTwo;
+		GPIOControl bInputOne;
+		GPIOControl bInputTwo;
 		void step(string valueA, string valueB, string valueC, string valueD);
 		
 	
