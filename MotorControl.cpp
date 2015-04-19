@@ -6,10 +6,10 @@ using namespace std;
 
 MotorControl::MotorControl()
 {
-	GPIOControl* aInputOne = new GPIOControl("4");
-    GPIOControl* aInputTwo = new GPIOControl("24");
-    GPIOControl* bInputOne = new GPIOControl("23");
-    GPIOControl* bInputTwo = new GPIOControl("18");
+	GPIOControl aInputOne("4");
+    GPIOControl aInputTwo("24");
+    GPIOControl bInputOne("23");
+    GPIOControl bInputTwo("18");
     phaseNumber = 1;
 }
 
@@ -17,26 +17,26 @@ MotorControl::MotorControl()
 // Sets the 4 necessary pins to "out"
 void MotorControl::startMotor()
 {
-	aInputOne->exportGPIO();
-    aInputTwo->exportGPIO();
-    bInputOne->exportGPIO();
-    bInputTwo->exportGPIO();
-    sleep (1);
+	aInputOne.exportGPIO();
+    aInputTwo.exportGPIO();
+    bInputOne.exportGPIO();
+    bInputTwo.exportGPIO();
+    usleep (10000000);
     
-    aInputOne->setDirection("out");
-    aInputTwo->setDirection("out");
-    bInputOne->setDirection("out");
-    bInputTwo->setDirection("out");
-    sleep (1);
+    aInputOne.setDirection("out");
+    aInputTwo.setDirection("out");
+    bInputOne.setDirection("out");
+    bInputTwo.setDirection("out");
+    usleep (10000000);
 }
 
 // controls the pin values for stepping the motor
 void MotorControl::step (string valueA, string valueB, string valueC, string valueD)
 {
-	aInputOne->setValue(valueA);
-	aInputTwo->setValue(valueB);
-	bInputOne->setValue(valueC);
-	bInputTwo->setValue(valueD);
+	aInputOne.setValue(valueA);
+	aInputTwo.setValue(valueB);
+	bInputOne.setValue(valueC);
+	bInputTwo.setValue(valueD);
 }
 
 /*
@@ -96,9 +96,9 @@ void MotorControl::changeAngle(float angle)
 
 void MotorControl::stopMotor()
 {
-	MotorControl::step("0","0","0","0");
-	aInputOne->unexportGPIO();
-    aInputTwo->unexportGPIO();
-    bInputOne->unexportGPIO();
-    bInputTwo->unexportGPIO();
+	step("0","0","0","0");
+	aInputOne.unexportGPIO();
+    aInputTwo.unexportGPIO();
+    bInputOne.unexportGPIO();
+    bInputTwo.unexportGPIO();
 }

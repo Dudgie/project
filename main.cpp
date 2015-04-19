@@ -120,7 +120,7 @@ int main(int argc, const char * argv[])
     vMaxValue = store.getVMAX();
     
     motorA.startMotor();
-    
+    currentX = 0;
     while (true)
     {
 	//std::cout << "running" << std::endl;
@@ -137,14 +137,14 @@ int main(int argc, const char * argv[])
         controller.ErrorToTilt();
         //std::cout << "test :" << track.getX() << std::endl;
         angle.updateAngle();
-        angle.getAngle(currentX, currentY);
+        //angle.getAngle(currentX, currentY);
         
         desiredX = controller.getTiltX() - currentX;
         
         std::cout << "Angle difference : " << desiredX << std::endl;
         
         motorA.changeAngle(desiredX);
-        
+        currentX = desiredX;
         waitKey(1);
 
         if (ctrlCPressed)
