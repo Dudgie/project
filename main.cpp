@@ -2,11 +2,12 @@
 #include <opencv/highgui.h>
 #include <opencv/cv.h>
 #include <signal.h>
+#include <unistd.h>
 #include "TrackObject.h"
 #include "store.h"
 #include "Angle.h"
 #include "PID.h"
-#include "MotorControl.h"
+#include "GPIOControl.h"
 
 
 using namespace cv;
@@ -15,10 +16,15 @@ TrackObject track;
 Store store;
 Angle angle;
 PID controller;
-MotorControl motorA;
+GPIOControl* aInputOne = new GPIOControl("4");
+GPIOControl* aInputTwo = new GPIOControl("24");
+GPIOControl* bInputOne = new GPIOControl("23");
+GPIOControl* bInputTwo = new GPIOControl("18");
 
 bool tracking = true;
 bool display = false;
+
+int noOfSteps = 5;
 
 //Values for the ranges to filter the image
 int hMIN = 0; int hMAX = 256;
@@ -59,6 +65,15 @@ void createTrackBars()
     createTrackbar("trackSMAX", trackers, &sMaxValue, hMAX, trackIt);
     createTrackbar("trackVMIN", trackers, &vMinValue, hMAX, trackIt);
     createTrackbar("trackVMAX", trackers, &vMaxValue, hMAX, trackIt);
+}
+
+void step (string inputA, string inputB, string inputC, string inputD)
+{
+	cout << "Input 1: " << inputA << ", input 2: " << inputB << ", input 3: " << inputC << ", input 4: " << inputD << endl;
+	aInputOne->setValue(inputA);
+	aInputTwo->setValue(inputB);
+	bInputOne->setValue(inputC);
+	bInputTwo->setValue(inputD);
 }
 
 /*
@@ -105,6 +120,20 @@ int main(int argc, const char * argv[])
     	namedWindow("MorphedBinary", 1);
     	namedWindow("binary", 1);
     }
+    int delay = 1000000;
+    int stepNumber;
+    int phaseNumber = 1;
+    aInputOne->exportGPIO();
+    aInputTwo->exportGPIO();
+    bInputOne->exportGPIO();
+    bInputTwo->exportGPIO();
+    usleep(delay);
+    
+    aInputOne->setDirection("out");
+    aInputTwo->setDirection("out");
+    bInputOne->setDirection("out");
+    bInputTwo->setDirection("out");
+    usleep(delay);
     
     //Creates trackbars
     if (tracking && display)
@@ -119,7 +148,6 @@ int main(int argc, const char * argv[])
     vMinValue = store.getVMIN();
     vMaxValue = store.getVMAX();
     
-    motorA.startMotor();
     currentX = 0;
     while (true)
     {
@@ -143,7 +171,60 @@ int main(int argc, const char * argv[])
         
         std::cout << "Angle difference : " << desiredX << std::endl;
         
-        motorA.changeAngle(desiredX);
+        stepNumber = (int)(desiredX/1.8)
+        
+        if (desiredX > 0)
+        {
+        	if (stepNumber > noOfSteps)
+        	{
+        		stepNumber = noOfSteps;
+        	}
+			for (int i = 0; i < stepNumber; i++)
+			{
+				switch (phaseNumber)
+				{
+					case 1 : step("1","0","1","0");
+							 phaseNumber = 2;
+							 break;
+					case 2 : step("0","1","1","0");
+							 phaseNumber = 3;
+							 break;
+					case 3 : step("0","1","0","1");
+							 phaseNumber = 4;
+							 break;
+					case 4 : step("1","0","0","1");
+							 phaseNumber = 1;
+							 break;
+				}
+			}
+		}
+		else // if backwards
+		{
+			phaseNumber = phaseNumber * -1;
+			if (stepNumber > noOfSteps)
+        	{
+        		stepNumber = noOfSteps;
+        	}
+			for (int i = 0; i < stepNumber; i++)
+			{
+				switch (phaseNumber)
+				{
+					case 1 : step("1","0","1","0");
+							 phaseNumber = 4;
+							 break;
+					case 2 : step("0","1","1","0");
+							 phaseNumber = 1;
+							 break;
+					case 3 : step("0","1","0","1");
+							 phaseNumber = 2;
+							 break;
+					case 4 : step("1","0","0","1");
+							 phaseNumber = 3;
+							 break;
+				}
+			}
+		}
+        
         currentX = desiredX;
         waitKey(1);
 
