@@ -137,7 +137,7 @@ int main(int argc, const char * argv[])
         controller.ErrorToTilt();
         //std::cout << "test :" << track.getX() << std::endl;
         angle.updateAngle();
-        angle.getAngle(CurrentX, CurrentY);
+        angle.getAngle(currentX, currentY);
         
         desiredX = controller.getTiltX() - currentX;
         

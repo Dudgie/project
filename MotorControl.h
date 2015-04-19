@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include "GPIOControl.h"
 using namespace std;
 
 class MotorControl
