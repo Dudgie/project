@@ -8,7 +8,7 @@ MotorControl::MotorControl()
 {
 	GPIOControl* aInputOne = new GPIOControl("4");
     GPIOControl* aInputTwo = new GPIOControl("24");
-    GPIOControl* bInputOne = new GPIOControl("27");
+    GPIOControl* bInputOne = new GPIOControl("23");
     GPIOControl* bInputTwo = new GPIOControl("18");
     phaseNumber = 1;
 }
@@ -21,11 +21,13 @@ void MotorControl::startMotor()
     aInputTwo->exportGPIO();
     bInputOne->exportGPIO();
     bInputTwo->exportGPIO();
+    sleep (1);
     
     aInputOne->setDirection("out");
     aInputTwo->setDirection("out");
     bInputOne->setDirection("out");
     bInputTwo->setDirection("out");
+    sleep (1);
 }
 
 // controls the pin values for stepping the motor
@@ -43,7 +45,7 @@ void MotorControl::step (string valueA, string valueB, string valueC, string val
 */
 void MotorControl::changeAngle(float angle)
 {
-	float angleChange = angle - tiltAngle;
+	float angleChange = angle;
 	stepNumber = int(angleChange/1.8);
 	
 	// if forward
@@ -90,8 +92,6 @@ void MotorControl::changeAngle(float angle)
 			}
 		}
 	}
-	
-	tiltAngle = angle;
 }
 
 void MotorControl::stopMotor()

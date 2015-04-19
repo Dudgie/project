@@ -6,6 +6,7 @@
 #include "store.h"
 #include "Angle.h"
 #include "PID.h"
+#include "MotorControl.h"
 
 
 using namespace cv;
@@ -14,6 +15,7 @@ TrackObject track;
 Store store;
 Angle angle;
 PID controller;
+MotorControl motorA;
 
 bool tracking = true;
 bool display = false;
@@ -75,10 +77,10 @@ int main(int argc, const char * argv[])
 	/*
 		Structure to set up the signal handler
 	*/
-	float CurrentX = 0;
-	float CurrentY = 0;
-	float DesiredX = 0;
-	float DesiredY = 0;
+	float currentX = 0;
+	float currentY = 0;
+	float desiredX = 0;
+	float desiredY = 0;
     struct sigaction sig_struct;
     sig_struct.sa_handler = sig_handler;
     sig_struct.sa_flags = 0;
@@ -117,6 +119,8 @@ int main(int argc, const char * argv[])
     vMinValue = store.getVMIN();
     vMaxValue = store.getVMAX();
     
+    motorA.startMotor();
+    
     while (true)
     {
 	//std::cout << "running" << std::endl;
@@ -135,15 +139,18 @@ int main(int argc, const char * argv[])
         angle.updateAngle();
         angle.getAngle(CurrentX, CurrentY);
         
-        DesiredX = controller.getTiltX() - CurrentX;
+        desiredX = controller.getTiltX() - currentX;
         
-        std::cout << "Angle difference : " << DesiredX << std::endl;
+        std::cout << "Angle difference : " << desiredX << std::endl;
+        
+        motorA.changeAngle(desiredX);
         
         waitKey(1);
 
         if (ctrlCPressed)
         {
             cout << "Quitting" << endl;
+            motorA.stopMotor();
             //Gives back the new values to the store
             string values = store.intToString(hMinValue, hMaxValue, sMinValue, sMaxValue, vMinValue, vMaxValue);
 	    store.writeToFile(values);

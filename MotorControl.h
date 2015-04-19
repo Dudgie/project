@@ -15,12 +15,12 @@ class MotorControl
 		GPIOControl* aInputTwo;
 		GPIOControl* bInputOne;
 		GPIOControl* bInputTwo;
+		void step(string valueA, string valueB, string valueC, string valueD);
 		
 	
 	public:
 		MotorControl();
 		void startMotor();
-		void step(string valueA, string valueB, string valueC, string valueD);
 		void changeAngle(float angle);
 		void stopMotor();
 };
