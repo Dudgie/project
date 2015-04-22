@@ -31,7 +31,7 @@ PID::PID ()
     derivativeX = 0;
     integralX = 0;
     
-    Kp = 10;
+    Kp = 100;
     Ki = 0;
     Kd = 0;
     

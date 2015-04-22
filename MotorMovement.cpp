@@ -4,10 +4,10 @@
 #include "GPIOControl.h"
 using namespace std;
     
-GPIOControl aInputOne = new GPIOControl("4");
-GPIOControl aInputTwo = new GPIOControl("24");
-GPIOControl bInputOne = new GPIOControl("23");
-GPIOControl bInputTwo = new GPIOControl("18");
+GPIOControl* aInputOne = new GPIOControl("4");
+GPIOControl* aInputTwo = new GPIOControl("24");
+GPIOControl* bInputOne = new GPIOControl("23");
+GPIOControl* bInputTwo = new GPIOControl("18");
 
 bool ctrlCPressed = false;
 
@@ -19,10 +19,10 @@ void sig_handler (int sig)
 void step (string inputA, string inputB, string inputC, string inputD)
 {
 	cout << "Input 1: " << inputA << ", input 2: " << inputB << ", input 3: " << inputC << ", input 4: " << inputD << endl;
-	aInputOne.setValue(inputA);
-	aInputTwo.setValue(inputB);
-	bInputOne.setValue(inputC);
-	bInputTwo.setValue(inputD);
+	aInputOne->setValue(inputA);
+	aInputTwo->setValue(inputB);
+	bInputOne->setValue(inputC);
+	bInputTwo->setValue(inputD);
 }
 
 int main(int argc, const char * argv[])
@@ -40,16 +40,16 @@ int main(int argc, const char * argv[])
     
     int delay = 1000000;
     int delay2 = 10000;
-    aInputOne.exportGPIO();
-    aInputTwo.exportGPIO();
-    bInputOne.exportGPIO();
-    bInputTwo.exportGPIO();
+    aInputOne->exportGPIO();
+    aInputTwo->exportGPIO();
+    bInputOne->exportGPIO();
+    bInputTwo->exportGPIO();
     usleep(delay);
 
-    aInputOne.setDirection("out");
-    aInputTwo.setDirection("out");
-    bInputOne.setDirection("out");
-    bInputTwo.setDirection("out");
+    aInputOne->setDirection("out");
+    aInputTwo->setDirection("out");
+    bInputOne->setDirection("out");
+    bInputTwo->setDirection("out");
     usleep(delay);
     
     while (true)
@@ -70,10 +70,10 @@ int main(int argc, const char * argv[])
             cout << "Quitting" << endl;
             
             step("0","0","0","0");
-            aInputOne.unexportGPIO();
-            aInputTwo.unexportGPIO();
-            bInputOne.unexportGPIO();
-            bInputTwo.unexportGPIO();
+            aInputOne->unexportGPIO();
+            aInputTwo->unexportGPIO();
+            bInputOne->unexportGPIO();
+            bInputTwo->unexportGPIO();
             break;
         }
     }
