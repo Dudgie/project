@@ -35,6 +35,7 @@ class TrackObject
     
     private:
     	Mat resizeImage (Mat largeImage);
+    	int numberObjects;
     
     public:
     	TrackObject ();
@@ -50,4 +51,5 @@ class TrackObject
     	void startCameraFeed() {capture.open(0);}
     	int getX() {return x;}
     	int getY() {return y;}
+    	int getNumberOfObjects() {return numberObjects;}
 };

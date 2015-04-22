@@ -135,6 +135,7 @@ void TrackObject::binaryToXY ()
 	if (hierarchy.size() > 0)
 	{
 		int numObjects = hierarchy.size();
+		numberObjects = numObjects;
 		cout << "Number of Objects : " << numObjects << endl;
 		if (numObjects >= maxNumObjects)
 		{

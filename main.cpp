@@ -148,6 +148,8 @@ int main(int argc, const char * argv[])
     vMinValue = store.getVMIN();
     vMaxValue = store.getVMAX();
     
+    float x, y;
+    
     currentX = 0;
     while (true)
     {
@@ -160,71 +162,133 @@ int main(int argc, const char * argv[])
         track.binaryToXY();
         track.displayXY();
         
-        controller.CoOrdinateToDistance(track.getX(), track.getY());
-        controller.XYToError();
-        controller.ErrorToTilt();
-        //std::cout << "test :" << track.getX() << std::endl;
         angle.updateAngle();
         //angle.getAngle(currentX, currentY);
-        
-        desiredX = controller.getTiltX() - currentX;
-        
-        std::cout << "Angle difference : " << desiredX << std::endl;
-        
-        stepNumber = (int)(desiredX/1.8);
-        
-        if (desiredX > 0)
+        int numberOfObjects = track.getNumberOfObejcts();
+        int numberOfObjects = 0;
+        if (numberOfObejcts > 0)
         {
-        	if (stepNumber > noOfSteps)
-        	{
-        		stepNumber = noOfSteps;
-        	}
-			for (int i = 0; i < stepNumber; i++)
-			{
-				switch (phaseNumber)
-				{
-					case 1 : step("1","0","1","0");
-							 phaseNumber = 2;
-							 break;
-					case 2 : step("0","1","1","0");
-							 phaseNumber = 3;
-							 break;
-					case 3 : step("0","1","0","1");
-							 phaseNumber = 4;
-							 break;
-					case 4 : step("1","0","0","1");
-							 phaseNumber = 1;
-							 break;
-				}
-			}
-		}
-		else // if backwards
-		{
-			phaseNumber = phaseNumber * -1;
-			if (stepNumber > noOfSteps)
-        	{
-        		stepNumber = noOfSteps;
-        	}
-			for (int i = 0; i < stepNumber; i++)
-			{
-				switch (phaseNumber)
-				{
-					case 1 : step("1","0","1","0");
-							 phaseNumber = 4;
-							 break;
-					case 2 : step("0","1","1","0");
-							 phaseNumber = 1;
-							 break;
-					case 3 : step("0","1","0","1");
-							 phaseNumber = 2;
-							 break;
-					case 4 : step("1","0","0","1");
-							 phaseNumber = 3;
-							 break;
-				}
-			}
-		}
+			controller.CoOrdinateToDistance(track.getX(), track.getY());
+			controller.XYToError();
+			controller.ErrorToTilt();
+			//std::cout << "test :" << track.getX() << std::endl;
+		
+		
+			desiredX = controller.getTiltX() - currentX;
+		
+			std::cout << "Angle difference : " << desiredX << std::endl;
+		
+			stepNumber = (int)(desiredX/1.8);
         
+			if (desiredX > 0)
+			{
+				if (stepNumber > noOfSteps)
+				{
+					stepNumber = noOfSteps;
+				}
+				for (int i = 0; i < stepNumber; i++)
+				{
+					switch (phaseNumber)
+					{
+						case 1 : step("1","0","1","0");
+								 phaseNumber = 2;
+								 break;
+						case 2 : step("0","1","1","0");
+								 phaseNumber = 3;
+								 break;
+						case 3 : step("0","1","0","1");
+								 phaseNumber = 4;
+								 break;
+						case 4 : step("1","0","0","1");
+								 phaseNumber = 1;
+								 break;
+					}
+				}
+			}
+			else // if backwards
+			{
+				phaseNumber = phaseNumber * -1;
+				if (stepNumber > noOfSteps)
+				{
+					stepNumber = noOfSteps;
+				}
+				for (int i = 0; i < stepNumber; i++)
+				{
+					switch (phaseNumber)
+					{
+						case 1 : step("1","0","1","0");
+								 phaseNumber = 4;
+								 break;
+						case 2 : step("0","1","1","0");
+								 phaseNumber = 1;
+								 break;
+						case 3 : step("0","1","0","1");
+								 phaseNumber = 2;
+								 break;
+						case 4 : step("1","0","0","1");
+								 phaseNumber = 3;
+								 break;
+					}
+				}
+			}
+        }
+        else
+        {
+        	angle.getAngle(x, y);
+        	desiredX = y;
+        	stepNumber = (int)desiredX/1.8;
+        	if (desiredX > 0)
+			{
+				if (stepNumber > noOfSteps)
+				{
+					stepNumber = noOfSteps;
+				}
+				for (int i = 0; i < stepNumber; i++)
+				{
+					switch (phaseNumber)
+					{
+						case 1 : step("1","0","1","0");
+								 phaseNumber = 2;
+								 break;
+						case 2 : step("0","1","1","0");
+								 phaseNumber = 3;
+								 break;
+						case 3 : step("0","1","0","1");
+								 phaseNumber = 4;
+								 break;
+						case 4 : step("1","0","0","1");
+								 phaseNumber = 1;
+								 break;
+					}
+				}
+			}
+			else // if backwards
+			{
+				phaseNumber = phaseNumber * -1;
+				if (stepNumber > noOfSteps)
+				{
+					stepNumber = noOfSteps;
+				}
+				for (int i = 0; i < stepNumber; i++)
+				{
+					switch (phaseNumber)
+					{
+						case 1 : step("1","0","1","0");
+								 phaseNumber = 4;
+								 break;
+						case 2 : step("0","1","1","0");
+								 phaseNumber = 1;
+								 break;
+						case 3 : step("0","1","0","1");
+								 phaseNumber = 2;
+								 break;
+						case 4 : step("1","0","0","1");
+								 phaseNumber = 3;
+								 break;
+					}
+				}
+			}
+        }
         currentX = desiredX;
         waitKey(1);
 
