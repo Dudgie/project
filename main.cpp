@@ -164,9 +164,9 @@ int main(int argc, const char * argv[])
         
         angle.updateAngle();
         //angle.getAngle(currentX, currentY);
-        int numberOfObjects = track.getNumberOfObejcts();
+        int numberOfObjects = track.getNumberOfObjects();
         int numberOfObjects = 0;
-        if (numberOfObejcts > 0)
+        if (numberOfObjects > 0)
         {
 			controller.CoOrdinateToDistance(track.getX(), track.getY());
 			controller.XYToError();
@@ -182,12 +182,6 @@ int main(int argc, const char * argv[])
         
 			if (desiredX > 0)
 			{
-				if (stepNumber > noOfSteps)
-				{
-					stepNumber = noOfSteps;
-				}
-				for (int i = 0; i < stepNumber; i++)
-				{
 					switch (phaseNumber)
 					{
 						case 1 : step("1","0","1","0");
@@ -203,17 +197,9 @@ int main(int argc, const char * argv[])
 								 phaseNumber = 1;
 								 break;
 					}
-				}
 			}
 			else // if backwards
 			{
-				phaseNumber = phaseNumber * -1;
-				if (stepNumber > noOfSteps)
-				{
-					stepNumber = noOfSteps;
-				}
-				for (int i = 0; i < stepNumber; i++)
-				{
 					switch (phaseNumber)
 					{
 						case 1 : step("1","0","1","0");
@@ -229,7 +215,6 @@ int main(int argc, const char * argv[])
 								 phaseNumber = 3;
 								 break;
 					}
-				}
 			}
         }
         else
