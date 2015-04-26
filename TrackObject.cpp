@@ -160,7 +160,6 @@ void TrackObject::binaryToXY ()
 				else
 					objectFound = false;
 			}
-			cout << "x : " << x << ", y : " << y << endl;
 		}
 		else
 		{

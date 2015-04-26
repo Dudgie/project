@@ -69,6 +69,7 @@ void createTrackBars()
 
 void step (string inputA, string inputB, string inputC, string inputD)
 {
+	cout << "Input 1: " << inputA << ", input 2: " << inputB << ", input 3: " << inputC << ", input 4: " << inputD << endl;
 	aInputOne->setValue(inputA);
 	aInputTwo->setValue(inputB);
 	bInputOne->setValue(inputC);
@@ -148,7 +149,8 @@ int main(int argc, const char * argv[])
     vMaxValue = store.getVMAX();
     
     float x, y;
-    int offset = 65;
+    
+    currentX = 0;
     while (true)
     {
 	//std::cout << "running" << std::endl;
@@ -163,24 +165,29 @@ int main(int argc, const char * argv[])
         angle.updateAngle();
         //angle.getAngle(currentX, currentY);
         int numberOfObjects = track.getNumberOfObjects();
+        numberOfObjects = 0;
         if (numberOfObjects > 0)
         {
-			angle.getAngle(x, y);
-			controller.CoOrdinateToDistance(track.getX()-offset, track.getY());
+			controller.CoOrdinateToDistance(track.getX(), track.getY());
 			controller.XYToError();
 			controller.ErrorToTilt();
-			std::cout << "x :" << track.getX() << std::endl;
+			//std::cout << "test :" << track.getX() << std::endl;
 		
 		
-			desiredX = controller.getTiltX() - x;
-			std::cout << "gyro angle : " << x << ", " << y << std::endl;
-			std::cout << "PID angle : " << controller.getTiltX() << ", " << controller.getTiltY() << std::endl;
+			desiredX = controller.getTiltX() - currentX;
+		
 			std::cout << "Angle difference : " << desiredX << std::endl;
 		
 			stepNumber = (int)(desiredX/1.8);
         
 			if (desiredX > 0)
 			{
+				if (stepNumber > noOfSteps)
+				{
+					stepNumber = noOfSteps;
+				}
+				for (int i = 0; i < stepNumber; i++)
+				{
 					switch (phaseNumber)
 					{
 						case 1 : step("1","0","1","0");
@@ -196,10 +203,17 @@ int main(int argc, const char * argv[])
 								 phaseNumber = 1;
 								 break;
 					}
+				}
 			}
 			else // if backwards
 			{
 				phaseNumber = phaseNumber * -1;
+				if (stepNumber > noOfSteps)
+				{
+					stepNumber = noOfSteps;
+				}
+				for (int i = 0; i < stepNumber; i++)
+				{
 					switch (phaseNumber)
 					{
 						case 1 : step("1","0","1","0");
@@ -215,6 +229,7 @@ int main(int argc, const char * argv[])
 								 phaseNumber = 3;
 								 break;
 					}
+				}
 			}
         }
         else
@@ -224,36 +239,25 @@ int main(int argc, const char * argv[])
         	stepNumber = (int)desiredX/1.8;
         	if (desiredX > 0)
 			{
-				if (stepNumber > noOfSteps)
+				switch (phaseNumber)
 				{
-					stepNumber = noOfSteps;
-				}
-				for (int i = 0; i < stepNumber; i++)
-				{
-					switch (phaseNumber)
-					{
-						case 1 : step("1","0","1","0");
-								 phaseNumber = 2;
-								 break;
-						case 2 : step("0","1","1","0");
-								 phaseNumber = 3;
-								 break;
-						case 3 : step("0","1","0","1");
-								 phaseNumber = 4;
-								 break;
-						case 4 : step("1","0","0","1");
-								 phaseNumber = 1;
-								 break;
-					}
+					case 1 : step("1","0","1","0");
+							 phaseNumber = 2;
+							 break;
+					case 2 : step("0","1","1","0");
+							 phaseNumber = 3;
+							 break;
+					case 3 : step("0","1","0","1");
+							 phaseNumber = 4;
+							 break;
+					case 4 : step("1","0","0","1");
+							 phaseNumber = 1;
+						 break;
 				}
 			}
 			else // if backwards
 			{
-				phaseNumber = phaseNumber * -1;
-				if (stepNumber > noOfSteps)
-				{
-					stepNumber = noOfSteps;
-				}
+				phaseNumber 
 				for (int i = 0; i < stepNumber; i++)
 				{
 					switch (phaseNumber)
@@ -274,6 +278,7 @@ int main(int argc, const char * argv[])
 				}
 			}
         }
+        currentX = desiredX;
         waitKey(1);
 
         if (ctrlCPressed)
