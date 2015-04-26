@@ -146,7 +146,7 @@ int main(int argc, const char * argv[])
     sMaxValue = store.getSMAX();
     vMinValue = store.getVMIN();
     vMaxValue = store.getVMAX();
-    
+    int noOfSteps = 5;
     float x, y;
     int offset = 65;
     while (true)
@@ -181,6 +181,10 @@ int main(int argc, const char * argv[])
         
 			if (desiredX > 0)
 			{
+				if (stepNumber > noOfSteps)
+					stepNumber = noOfSteps;
+				for (int i = 0, i < noOfSteps, i++)
+				{
 					switch (phaseNumber)
 					{
 						case 1 : step("1","0","1","0");
@@ -196,9 +200,15 @@ int main(int argc, const char * argv[])
 								 phaseNumber = 1;
 								 break;
 					}
+				}
 			}
 			else // if backwards
 			{
+				stepNumber = stepNumber * -1;
+				if (stepNumber > noOfSteps)
+					stepNumber = noOfSteps;
+				for (int i = 0, i < noOfSteps, i++)
+				{
 					switch (phaseNumber)
 					{
 						case 1 : step("1","0","1","0");
@@ -214,6 +224,7 @@ int main(int argc, const char * argv[])
 								 phaseNumber = 3;
 								 break;
 					}
+				}
 			}
         }
         else
@@ -248,7 +259,7 @@ int main(int argc, const char * argv[])
 			}
 			else // if backwards
 			{
-				phaseNumber = phaseNumber * -1;
+				stepNumber = stepNumber * -1;
 				if (stepNumber > noOfSteps)
 				{
 					stepNumber = noOfSteps;
