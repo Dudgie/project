@@ -24,7 +24,7 @@ GPIOControl* bInputTwo = new GPIOControl("18");
 bool tracking = true;
 bool display = false;
 
-int noOfSteps = 5;
+int noOfSteps = 10;
 
 //Values for the ranges to filter the image
 int hMIN = 0; int hMAX = 256;
@@ -120,6 +120,7 @@ int main(int argc, const char * argv[])
     	namedWindow("binary", 1);
     }
     int delay = 1000000;
+    int delay2 = 10;
     int stepNumber;
     int phaseNumber = 1;
     aInputOne->exportGPIO();
@@ -159,7 +160,7 @@ int main(int argc, const char * argv[])
         track.imageToBinary();
         track.binaryToXY();
         track.displayXY();
-        
+        int i = 0;
         angle.updateAngle();
         //angle.getAngle(currentX, currentY);
         int numberOfObjects = track.getNumberOfObjects();
@@ -171,43 +172,72 @@ int main(int argc, const char * argv[])
 			controller.ErrorToTilt();
 			std::cout << "x :" << track.getX() << std::endl;
 		
-		
-			desiredX = controller.getTiltX() - x;
-			std::cout << "gyro angle : " << x << ", " << y << std::endl;
-			std::cout << "PID angle : " << controller.getTiltX() << ", " << controller.getTiltY() << std::endl;
+			desiredX = (controller.getTiltX() + y)*-1;
+			std::cout << "gyro angle : " << y << std::endl;
+			std::cout << "PID angle : " << controller.getTiltX() << std::endl;
 			std::cout << "Angle difference : " << desiredX << std::endl;
 		
 			stepNumber = (int)(desiredX/1.8);
         
 			if (desiredX > 0)
 			{
-				if (stepNumber > noOfSteps)
-					stepNumber = noOfSteps;
-				for (int i = 0, i < noOfSteps, i++)
-				{
-					switch (phaseNumber)
-					{
-						case 1 : step("1","0","1","0");
-								 phaseNumber = 2;
-								 break;
-						case 2 : step("0","1","1","0");
-								 phaseNumber = 3;
-								 break;
-						case 3 : step("0","1","0","1");
-								 phaseNumber = 4;
-								 break;
-						case 4 : step("1","0","0","1");
-								 phaseNumber = 1;
-								 break;
-					}
-				}
+				while (controller.getTiltX()+y < 0)
+                                {
+                                        switch (phaseNumber)
+                                        {
+                                                case 1 : step("1","0","1","0");
+                                                                 phaseNumber = 4;
+                                                                 break;
+                                                case 2 : step("0","1","1","0");
+                                                                 phaseNumber = 1;
+                                                                 break;
+                                                case 3 : step("0","1","0","1");
+                                                                 phaseNumber = 2;
+                                                                 break;
+                                                case 4 : step("1","0","0","1");
+                                                                 phaseNumber = 3;
+                                                                 break;
+                                        }
+                                        usleep (delay2);
+                                        angle.updateAngle();
+                                        angle.getAngle(x, y);
+					if (i = noOfSteps)
+						break;
+					i++;
+                                }
+
 			}
 			else // if backwards
 			{
+				while (controller.getTiltX()+y > 0)
+				{
+					switch (phaseNumber)
+                                        {
+                                                case 1 : step("1","0","1","0");
+                                                                 phaseNumber = 2;
+                                                                 break;
+                                                case 2 : step("0","1","1","0");
+                                                                 phaseNumber = 3;
+                                                                 break;
+                                                case 3 : step("0","1","0","1");
+                                                                 phaseNumber = 4;
+                                                                 break;
+                                                case 4 : step("1","0","0","1");
+                                                                 phaseNumber = 1;
+                                                                 break;
+                                        }
+                                        usleep (delay2);
+					angle.updateAngle();
+                                        angle.getAngle(x, y);
+					if (i = noOfSteps)
+						break;
+					i++;
+				}
+				/*
 				stepNumber = stepNumber * -1;
 				if (stepNumber > noOfSteps)
 					stepNumber = noOfSteps;
-				for (int i = 0, i < noOfSteps, i++)
+				for (int i = 0; i < noOfSteps; i++)
 				{
 					switch (phaseNumber)
 					{
@@ -224,7 +254,8 @@ int main(int argc, const char * argv[])
 								 phaseNumber = 3;
 								 break;
 					}
-				}
+					usleep (delay2);
+				}*/
 			}
         }
         else
@@ -234,6 +265,32 @@ int main(int argc, const char * argv[])
         	stepNumber = (int)desiredX/1.8;
         	if (desiredX > 0)
 			{
+				while (y < 0)
+                                {
+                                        switch (phaseNumber)
+                                        {
+                                                case 1 : step("1","0","1","0");
+                                                                 phaseNumber = 4;
+                                                                 break;
+                                                case 2 : step("0","1","1","0");
+                                                                 phaseNumber = 1;
+                                                                 break;
+                                                case 3 : step("0","1","0","1");
+                                                                 phaseNumber = 2;
+                                                                 break;
+                                                case 4 : step("1","0","0","1");
+                                                                 phaseNumber = 3;
+                                                                 break;
+                                        }
+                                        usleep (delay2);
+                                        angle.updateAngle();
+                                        angle.getAngle(x, y);
+					if (i = noOfSteps)
+						break;
+					i++;
+                                }
+
+				/*
 				if (stepNumber > noOfSteps)
 				{
 					stepNumber = noOfSteps;
@@ -255,10 +312,37 @@ int main(int argc, const char * argv[])
 								 phaseNumber = 1;
 								 break;
 					}
-				}
+					usleep(delay2);
+				}*/
 			}
 			else // if backwards
 			{
+				while (y > 0)
+                                {
+                                        switch (phaseNumber)
+                                        {
+                                                case 1 : step("1","0","0","1");
+                                                                 phaseNumber = 4;
+                                                                 break;
+                                                case 2 : step("0","1","0","1");
+                                                                 phaseNumber = 1;
+                                                                 break;
+                                                case 3 : step("0","1","1","0");
+                                                                 phaseNumber = 2;
+                                                                 break;
+                                                case 4 : step("1","0","1","0");
+                                                                 phaseNumber = 3;
+                                                                 break;
+                                        }
+                                        usleep (delay2);
+                                        angle.updateAngle();
+                                        angle.getAngle(x, y);
+					if (i = noOfSteps)
+						break;
+					i++;
+                                }
+
+				/*
 				stepNumber = stepNumber * -1;
 				if (stepNumber > noOfSteps)
 				{
@@ -281,7 +365,8 @@ int main(int argc, const char * argv[])
 								 phaseNumber = 3;
 								 break;
 					}
-				}
+					usleep (delay2);
+				}*/
 			}
         }
         waitKey(1);

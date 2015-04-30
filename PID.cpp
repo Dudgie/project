@@ -23,7 +23,7 @@ PID::PID ()
     
     errorX = 0;
     pErrorX = 0;
-    setPointX = surfaceWidth/2;
+    setPointX = 0;
     
     derivativeY = 0;
     integralY = 0;
@@ -31,7 +31,7 @@ PID::PID ()
     derivativeX = 0;
     integralX = 0;
     
-    Kp = 20;
+    Kp = -100;
     Ki = 0;
     Kd = 0;
     
