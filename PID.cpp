@@ -1,10 +1,3 @@
-//
-//  PID.cpp
-//  Balancing Table
-//
-//  Created by Ben Dudgeon on 29/08/2014.
-//  Copyright (c) 2014 BenProject. All rights reserved.
-//
 
 #include "PID.h"
  
