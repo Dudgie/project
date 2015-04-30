@@ -16,7 +16,7 @@ PID::PID ()
     cameraHeight = 480;
     
     conversion = surfaceHeight/cameraHeight;
-    timeGap = 1;
+    start = std::chrono::system_clock::now();
     errorY = 0;
     pErrorY = 0;
     setPointY = surfaceHeight/2;
@@ -31,7 +31,7 @@ PID::PID ()
     derivativeX = 0;
     integralX = 0;
     
-    Kp = 20;
+    Kp = -100;
     Ki = 0;
     Kd = 0;
     
@@ -55,20 +55,25 @@ void PID::CoOrdinateToDistance (int inputX, int inputY)
 void PID::XYToError ()
 {
 	errorY = setPointY - y;
-	integralY = integralY + errorY*timeGap;
-	derivativeY = (errorY - pErrorY)/timeGap;
+	
+	end = std::chrono::system_clock::now();
+	std::chrono::duration<double> elapsed_seconds = end-start;
+	
+	integralY = integralY + errorY*elapsed_seconds.count();
+	derivativeY = (errorY - pErrorY)/elapsed_seconds.count();
 	pErrorY = errorY;
 	errorY = errorY*Kp + integralY*Ki + derivativeY*Kd;
 	
 	errorX = setPointX - x;
-	integralX = integralX + errorX*timeGap;
-	derivativeX = (errorX - pErrorX)/timeGap;
+	integralX = integralX + errorX*elapsed_seconds.count();
+	derivativeX = (errorX - pErrorX)/elapsed_seconds.count();
 	pErrorX = errorX;
 	//std::cout << "x number 1 : " << errorX << std::endl;
 	//std::cout << "integral : " << integralX << std::endl;
 	//std::cout << "derivative : " << derivativeX << std::endl;
 	errorX = errorX*Kp + integralX*Ki + derivativeX*Kd;
 	//std::cout << "x number 2 : " << errorX*Kp << std::endl;
+	start = std::chrono::system_clock::now();
 }
 
 /*

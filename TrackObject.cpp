@@ -12,7 +12,7 @@ TrackObject::TrackObject ()
     int vMIN = 0; int vMAX = 256;
     
     int maxNumObjects = 5;
-    int minObjectArea = 30*30;
+    int minObjectArea = 5*5;
     
     Point topLeft = Point(30, 30);
     
@@ -101,7 +101,7 @@ void TrackObject::imageToBinary()
 		This makes the object easier to track
 	*/
 	Mat erodeElement = getStructuringElement(MORPH_ELLIPSE, Size(3,3));
-	Mat dilateElement = getStructuringElement(MORPH_ELLIPSE, Size(8,8));
+	Mat dilateElement = getStructuringElement(MORPH_ELLIPSE, Size(4,4));
 	erode (image, image, erodeElement);
 	erode (image, image, erodeElement);
 	dilate (image, image, dilateElement);

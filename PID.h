@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <ctime>
 
 class PID
 {
@@ -13,6 +15,8 @@ class PID
     float derivativeX, integralX;
     float Kp, Ki, Kd;
     float tiltAngleY, tiltAngleX;
+    
+    std::chrono::time_point<std::chrono::system_clock> start, end;
     
     public:
     	PID ();

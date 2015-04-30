@@ -39,7 +39,7 @@ int main(int argc, const char * argv[])
     }
     
     int delay = 1000000;
-    int delay2 = 10000;
+    int delay2 = 100000;
     aInputOne->exportGPIO();
     aInputTwo->exportGPIO();
     bInputOne->exportGPIO();

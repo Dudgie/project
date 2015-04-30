@@ -35,8 +35,7 @@ void Angle::setupAngle()
     accel->writeReg(ADXL345_DATA_FORMAT, 0b00001011); //Sets Range and resolution of accelerometer
     accel->writeReg(ADXL345_POWER_CTL, 0b00000000);	  //sets autosleep on when the device has not
     accel->writeReg(ADXL345_POWER_CTL, 0b00010000);   //been accessed for a while
-    accel->writeReg(ADXL345_POWER_CTL, 0b00001000);	  //Sets measuring mode to on
-
+    accel->writeReg(ADXL345_POWER_CTL, 0b00001000);	  //Sets measuring mode t
 }
 
 /*
